@@ -1,0 +1,18 @@
+services:
+  db:
+    build: ./db
+    ports:
+      - '3306:3306'
+    restart: always
+    volumes:
+      - forum_db:/var/lib/mysql
+
+    networks:
+      - backend
+
+networks:
+  backend:
+  server:
+
+volumes:
+  forum_db:

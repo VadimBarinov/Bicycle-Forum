@@ -1,0 +1,8 @@
+FROM mysql:latest
+
+ENV MYSQL_DATABASE=db_name
+ENV MYSQL_ROOT_PASSWORD=super_password
+
+RUN chown -R mysql:mysql /docker-entrypoint-initdb.d/
+
+EXPOSE 3306
