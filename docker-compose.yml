@@ -1,18 +1,27 @@
 services:
-  db:
-    build: ./db
+  postgres:
+    image: postgres:latest
+    container_name: postgres_forum
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: qwerty1234
+      POSTGRES_DB: db_forum
+      PGDATA: /var/lib/postgresql/18/data/pgdata_forum
     ports:
-      - '3306:3306'
-    restart: always
+      - 5432:5432
     volumes:
-      - forum_db:/var/lib/mysql
-
-    networks:
-      - backend
-
-networks:
-  backend:
-  server:
+      - pgdata_forum:/var/lib/postgresql/18/data/pgdata_forum
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    restart: always
+    tty: true
+    stdin_open: true
 
 volumes:
-  forum_db:
+  pgdata_forum:
