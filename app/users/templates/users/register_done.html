@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div class="welcome">
+      <h1>Добро пожаловать!</h1>
+      <p>Вы успешно зарегистрировались на сайте!<br>Для входа в систему необходимо авторизоваться</p>
+      <div class="button-welcome">
+        <a href="{% url 'users:login' %}">
+          <button class="btn btn-outline-primary">
+            Авторизация
+          </button>
+        </a>
+      </div>
+    </div>
+</div>
+    
+{% endblock %}
+    

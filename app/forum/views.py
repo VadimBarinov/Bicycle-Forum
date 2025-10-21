@@ -1,5 +1,8 @@
-from django.http import HttpResponse
+from django.views.generic import TemplateView
+
+from forum.utils import DataMixin
 
 
-def index(request):
-    return HttpResponse("Hello")
+class HomePage(DataMixin, TemplateView):
+    template_name = 'forum/index.html'
+    title_page = 'Главная'

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div class="login-page">
+        <div class="form my-border">
+          <h1>Авторизация</h1>
+          <form class="login-form" method="post">
+
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{next}}"/>
+            <div class="form-error">
+              {% if form.non_field_errors %}
+              <ul class="errorlist nonfield">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+            
+            {% for f in form %}
+                {{ f }}
+                <div class="form-error">
+                  {% if f.errors %}
+                  <ul class="errorlist nonfield">
+                    {% for error in f.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </div>
+            {% endfor %}
+                
+            <button class="btn btn-primary" type="submit">Войти</button>
+        
+            <p class="message"><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
+          </form>
+        </div>
+      </div>
+</div>
+{% endblock %}
+    

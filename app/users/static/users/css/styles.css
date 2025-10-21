@@ -1,0 +1,100 @@
+.login-page {
+    width: 21rem;
+    padding-top: 8%;
+    margin: auto;
+  }
+  .form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 21rem;
+    margin: auto;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0rem 0rem 1rem #B0B0B0;
+  }
+  .form input {
+    outline: 0;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem !important;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  .form .message {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+  .form .message a {
+    color: #595959;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .form .message a:hover {
+    color: black;
+  }
+  .form h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .form-error {
+    color: red;
+    text-align: start;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  .form-error li {
+    list-style-type: none;
+  }
+  .form-error ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .welcome {
+    padding-top: 10rem;
+  }
+  
+  .welcome h1 {
+    padding-bottom: 0.5rem;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .welcome p {
+    color: #595959;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .button-welcome {
+    display: flex;
+    justify-content: center;
+  }
+
+  .url-profile {
+    display: flex;
+    justify-content: start;
+    padding-top: 2rem;
+    margin: 0;
+  }
+
+  .url-profile a{
+    color: #595959;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  .url-profile a:hover {
+    color: black;
+  }
