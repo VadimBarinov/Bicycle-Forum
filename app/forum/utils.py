@@ -3,6 +3,10 @@ menu = [
         "title": "Главная",
         "url": "home",
     },
+    {
+        'title': 'О себе',
+        'url': 'about',
+    },
 ]
 
 

@@ -1,0 +1,92 @@
+{%extends 'base.html'%}
+{%load forum_tags%}
+{%load static%}
+{%block content%}
+
+
+<div class="container">
+
+    <div class="bike-title pb-3 pt-5">
+        <h1 class="text-center">{{ title }}</h1>
+    </div>
+
+    <div class="row d-flex mt-5 mb-5 border-bottom">
+        <div class="col-md-6 p-4">
+            <p class="text-grey text-about-16">
+                Меня зовут Вадим, мне 20 лет, и я живу в Новоульяновске. Моё главное увлечение — катание на велосипеде.
+            </p>
+        </div>
+        <div class="col-md-6 p-4">
+            <p class="text-grey text-about-16">
+                Велоспорт для меня не просто хобби, а стиль жизни, который помогает поддерживать хорошую физическую форму, улучшать настроение и открывать новые красивые места вокруг города.
+            </p>
+        </div>
+        <div class="col-md-6 p-4">
+            <p class="text-grey text-about-16">
+                Именно благодаря моей страсти к велосипедам я решил создать этот сайт-каталог.
+            </p>
+        </div>
+        <div class="col-md-6 p-4">
+            <p class="text-grey text-about-16">
+                Здесь я хочу собрать полезную информацию о различных моделях велосипедов, чтобы помочь другим любителям двухколёсного транспорта сделать правильный выбор.
+            </p>
+        </div>
+        <div class="col-md-6 p-4">
+            <p class="text-grey text-about-16">
+                Катание на велосипеде — это отличный способ укрепить здоровье, развить выносливость и поддерживать активный образ жизни. 
+            </p>
+        </div>
+        <div class="col-md-6 p-4">
+            <p class="text-grey text-about-16">
+                Велоспорт способствует улучшению работы сердечно-сосудистой системы, помогает бороться со стрессом и дарит заряд энергии на весь день. 
+            </p>
+        </div>
+        <div class="p-4 d-flex justify-content-center">
+            <p class="text-grey text-about-16">
+                Надеюсь, что мой сайт вдохновит вас на новые велоприключения!
+            </p>
+        </div>
+    </div>
+
+    <div class="bike-title pb-3 pt-5">
+        <h1 class="text-center">Основатель</h1>
+    </div>
+
+    <div class="ms-md-5 me-md-5">
+        <div class="about-card-container my-border m-md-5 mt-5">
+            <div class="about-card row d-flex">
+                <div class="col-md-6 pe-md-4">
+                    <img src="{% static 'forum/images/me2.jpg' %}" class="my-border"/>
+                </div>
+                <div class="col-md-6 ps-md-4 about-card-body">
+                    <div class="d-none d-md-flex justify-content-end velo-svg">
+                        <img src="{% static 'forum/images/velo.svg' %}"/>
+                    </div>
+                    <h1>Баринов Вадим</h1>
+                    <p class="about-card-text text-grey">
+                        Студент 4 курса Ульяновского государственного университета,
+                        факультета математики, информационных и авиационных технологий, 
+                        группы МОАИС-О-22/1
+                    </p>
+                    <div class="about-refs">
+                        <a
+                            href="https://github.com/VadimBarinov"
+                            target="_blank"
+                            class="btn btn-outline-primary me-3"
+                        >GitHub</a>
+                        <a
+                            href="https://t.me/zrkk_k"
+                            target="_blank"
+                            class="btn btn-outline-primary"
+                        >Telegram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+{%endblock content%}
