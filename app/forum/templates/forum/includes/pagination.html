@@ -1,0 +1,37 @@
+<!-- пагинация -->
+<!-- надо будет добавить проверку на input_value -->
+<nav class="list-pages">
+<ul>
+
+  <li class="page-num">
+    <a class="border my-border" href="?page=1">&laquo;</a>
+  </li>
+
+  {% for p in paginator.page_range %}
+
+  {% if page_obj.number == p %}
+
+  <li class="page-num page-num-selected">{{ p }}</li>
+
+  {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
+
+  <li class="page-num">
+    <a class="border my-border" href="?page={{ p }}">{{ p }}</a>
+  </li>
+
+  {% elif p == page_obj.number|add:-2 or p == page_obj.number|add:2%}
+
+  <li class="page-num d-none d-md-inline-block d-lg-inline-block">
+    <a class="border my-border" href="?page={{ p }}">{{ p }}</a>
+  </li>
+
+  {% endif %}
+
+  {% endfor %}
+
+  <li class="page-num">
+    <a class="border my-border" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+  </li>
+
+</ul>
+</nav>

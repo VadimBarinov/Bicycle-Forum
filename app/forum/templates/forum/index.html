@@ -22,6 +22,9 @@
             <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
         </div>
     {% endfor %}
+
 </div>
+
+{% include 'forum/includes/pagination.html' %}
 
 {%endblock%}

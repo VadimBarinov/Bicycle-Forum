@@ -16,6 +16,7 @@ class HomePage(DataMixin, ListView):
     template_name = "forum/index.html"
     title_page = 'Главная'
     context_object_name = "themes"
+    paginate_by = 10
 
 
 class ThemeDetail(DataMixin, DetailView):
@@ -23,6 +24,7 @@ class ThemeDetail(DataMixin, DetailView):
     template_name = "forum/theme_detail.html"
     pk_url_kwarg = "theme_id"
     context_object_name = "theme"
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
