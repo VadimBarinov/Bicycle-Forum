@@ -16,10 +16,10 @@
     {% for message in theme.message.all %}
         <div class="border p-2 m-2">
             <p>{{ message.content }}</p>
-            <p>{{ message.author }}</p>
+            <p>Автор: {{ message.author }}</p>
 
             {% if message.parent_id or message.parent_id == 0 %}
-            <p>{{ message.parent_id }}</p>
+            <p>Ответил на: {{ message.parent_id }}</p>
             {% endif %}
 
             <p>{{ message.created_at|date:"d.m.Y, H:i" }}</p>

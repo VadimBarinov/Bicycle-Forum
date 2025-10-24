@@ -12,10 +12,10 @@ class ShowAbout(DataMixin, TemplateView):
 
 
 class HomePage(DataMixin, ListView):
-    model = Section
+    model = Theme
     template_name = "forum/index.html"
     title_page = 'Главная'
-    context_object_name = "sections"
+    context_object_name = "themes"
 
 
 class ThemeDetail(DataMixin, DetailView):

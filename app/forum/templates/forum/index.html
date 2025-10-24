@@ -11,14 +11,15 @@
         </button>
     </a>
 
-    {% for section in sections %}
-        <h3>{{ section.title }}</h3>
-        {% for theme in section.theme.all %}
-            <div>
+    {% for theme in themes %}
+        <div class="border p-2 m-2">
+            <p>
                 <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
-                <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
-            </div>
-        {% endfor %}
+            </p>
+            <p>Автор: {{ theme.author }}</p>
+            <p>Раздел: {{ theme.section.title }}</p>
+            <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+        </div>
     {% endfor %}
 </div>
 
