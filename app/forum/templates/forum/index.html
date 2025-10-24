@@ -2,4 +2,11 @@
 {%load static%}
 {%block content%}
 
+  {% for theme in themes %}
+    <div class="theme">
+        <p>{{ theme.title }}</p>
+        <p>{{ theme.created_at }}</p>
+    </div>
+  {% endfor %}
+
 {%endblock%}

@@ -10,6 +10,14 @@ class Section(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Раздел"
+        verbose_name_plural = "Разделы"
+        ordering = ["created_at"]
+        indexes = [
+            models.Index(fields=["created_at"])
+        ]
+
 
 class Theme(models.Model):
     section = models.ForeignKey(
@@ -32,6 +40,14 @@ class Theme(models.Model):
     def get_absolute_url(self):
         return reverse("theme", kwargs={"theme_id": self.pk})
 
+    class Meta:
+        verbose_name = "Тема"
+        verbose_name_plural = "Темы"
+        ordering = ["created_at"]
+        indexes = [
+            models.Index(fields=["created_at"])
+        ]
+
 
 class Message(models.Model):
     theme = models.ForeignKey(
@@ -53,3 +69,11 @@ class Message(models.Model):
 
     def get_absolute_url(self):
         return reverse("message", kwargs={"message_id": self.pk})
+
+    class Meta:
+        verbose_name = "Сообщение"
+        verbose_name_plural = "Сообщения"
+        ordering = ["created_at"]
+        indexes = [
+            models.Index(fields=["created_at"])
+        ]
