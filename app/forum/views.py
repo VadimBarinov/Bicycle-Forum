@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView
 
 from forum.models import Theme, Message, Section
 from forum.utils import DataMixin
@@ -19,19 +19,29 @@ class HomePage(DataMixin, ListView):
     paginate_by = 10
 
 
-class ThemeDetail(DataMixin, DetailView):
-    model = Theme
-    template_name = "forum/theme_detail.html"
-    pk_url_kwarg = "theme_id"
-    context_object_name = "theme"
+class MessagesOnThemeList(DataMixin, ListView):
+    model = Message
+    template_name = "forum/messages_on_theme.html"
+    context_object_name = "messages"
     paginate_by = 10
+
+    def get_queryset(self):
+        # нужно будет учитывать строку поиска
+        return Message.objects.filter(
+            theme__pk=self.kwargs["theme_id"]
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        title = context["theme"].title
+
+        theme_id = self.kwargs["theme_id"]
+        section_id = self.kwargs["section_id"]
+        title = Theme.objects.get(pk=theme_id).title
 
         return self.get_mixin_context(
             context,
+            theme_id=theme_id,
+            section_id=section_id,
             title=title,
         )
 

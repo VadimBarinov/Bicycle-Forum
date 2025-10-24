@@ -5,15 +5,15 @@
 
 <div class="container">
 
-    <h1>{{ theme.title }}</h1>
+    <h1>{{ title }}</h1>
 
-    <a href="{% url 'create_message' section_id=theme.section.pk theme_id=theme.pk %}">
+    <a href="{% url 'create_message' section_id=section_id theme_id=theme_id %}">
         <button class="btn btn-primary">
             Новое сообщение
         </button>
     </a>
 
-    {% for message in theme.message.all %}
+    {% for message in messages %}
         <div class="border p-2 m-2">
             <p>{{ message.content }}</p>
             <p>Автор: {{ message.author }}</p>
@@ -25,6 +25,8 @@
             <p>{{ message.created_at|date:"d.m.Y, H:i" }}</p>
         </div>
     {% endfor %}
+
+    {% include 'forum/includes/pagination.html' %}
 
 </div>
 

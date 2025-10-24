@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     HomePage,
     ShowAbout,
-    ThemeDetail,
+    MessagesOnThemeList,
     CreateMessage,
     CreateTheme,
 )
@@ -21,8 +21,8 @@ urlpatterns = [
     ),
     path(
         "section/<int:section_id>/theme/<int:theme_id>/",
-        ThemeDetail.as_view(),
-        name="theme",
+        MessagesOnThemeList.as_view(),
+        name="messages_on_theme",
     ),
     path(
         "section/<int:section_id>/theme/<int:theme_id>/create_message/",

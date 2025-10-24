@@ -38,10 +38,13 @@ class Theme(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("theme", kwargs={
-            "section_id": self.section.pk,
-            "theme_id": self.pk,
-        })
+        return reverse(
+            "messages_on_theme",
+            kwargs={
+                "section_id": self.section.pk,
+                "theme_id": self.pk,
+            },
+        )
 
     class Meta:
         verbose_name = "Тема"
@@ -69,9 +72,6 @@ class Message(models.Model):
 
     def __str__(self):
         return str(self.pk)
-
-    def get_absolute_url(self):
-        return reverse("message", kwargs={"message_id": self.pk})
 
     class Meta:
         verbose_name = "Сообщение"
