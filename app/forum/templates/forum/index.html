@@ -17,6 +17,7 @@
                 <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
             </p>
             <p>Автор: {{ theme.author }}</p>
+            <p>Сообщений: {{ theme.messages_count }}</p>
             <p>Раздел: {{ theme.section.title }}</p>
             <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
         </div>
