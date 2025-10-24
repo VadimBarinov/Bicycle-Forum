@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
@@ -33,7 +34,7 @@ class ThemeDetail(DataMixin, DetailView):
         )
 
 
-class CreateMessage(DataMixin, CreateView):
+class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
     model = Message
     fields = '__all__'
     template_name = "forum/create_message.html"
@@ -48,3 +49,10 @@ class CreateMessage(DataMixin, CreateView):
     #         context,
     #         title=title,
     #     )
+
+
+class CreateTheme(LoginRequiredMixin, DataMixin, CreateView):
+    model = Theme
+    fields = '__all__'
+    template_name = "forum/create_theme.html"
+    success_url = reverse_lazy("home")

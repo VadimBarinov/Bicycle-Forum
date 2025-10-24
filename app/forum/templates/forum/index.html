@@ -4,6 +4,13 @@
 {%block content%}
 
 <div class="container">
+
+    <a href="{% url 'create_theme' %}">
+        <button class="btn btn-primary">
+            Новая тема
+        </button>
+    </a>
+
     {% for section in sections %}
         <h3>{{ section.title }}</h3>
         {% for theme in section.theme.all %}
