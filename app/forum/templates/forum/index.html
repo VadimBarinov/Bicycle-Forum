@@ -1,12 +1,18 @@
 {%extends 'base.html'%}
 {%load static%}
+
 {%block content%}
 
-  {% for theme in themes %}
-    <div class="theme">
-        <p>{{ theme.title }}</p>
-        <p>{{ theme.created_at }}</p>
-    </div>
-  {% endfor %}
+<div class="container">
+    {% for section in sections %}
+        <h3>{{ section.title }}</h3>
+        {% for theme in section.theme.all %}
+            <div>
+                <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
+                <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
 
 {%endblock%}

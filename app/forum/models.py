@@ -38,7 +38,10 @@ class Theme(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("theme", kwargs={"theme_id": self.pk})
+        return reverse("theme", kwargs={
+            "section_id": self.section.pk,
+            "theme_id": self.pk,
+        })
 
     class Meta:
         verbose_name = "Тема"

@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block content%}
+
+<div class="container">
+
+    <h1>{{ theme.title }}</h1>
+
+    <a href="{% url 'create_message' section_id=theme.section.pk theme_id=theme.pk %}">
+        <button class="btn btn-primary">
+            Новое сообщение
+        </button>
+    </a>
+
+    {% for message in theme.message.all %}
+        <div class="border p-2 m-2">
+            <p>{{ message.content }}</p>
+            <p>{{ message.author }}</p>
+
+            {% if message.parent_id or message.parent_id == 0 %}
+            <p>{{ message.parent_id }}</p>
+            {% endif %}
+
+            <p>{{ message.created_at|date:"d.m.Y, H:i" }}</p>
+        </div>
+    {% endfor %}
+
+</div>
+
+{%endblock%}
