@@ -43,7 +43,7 @@ class Message(models.Model):
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.PROTECT,
-        related_name="theme",
+        related_name="message",
     )
     parent_id = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
