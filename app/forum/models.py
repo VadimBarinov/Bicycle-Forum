@@ -67,7 +67,12 @@ class Message(models.Model):
         on_delete=models.PROTECT,
         related_name="message",
     )
-    parent_id = models.IntegerField(null=True)
+    parent = models.ForeignKey(
+        "Message",
+        on_delete=models.PROTECT,
+        related_name="all_parents",
+        null=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
