@@ -76,22 +76,21 @@ class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        theme_id = self.kwargs["theme_id"]
-        section_id = self.kwargs["section_id"]
         theme = context["theme"]
-
         form.instance.author = self.request.user
         form.instance.theme = theme
+        return super().form_valid(form)
 
-        self.object = form.save()
-        self.success_url = reverse_lazy(
+    def get_success_url(self):
+        theme_id = self.kwargs["theme_id"]
+        section_id = self.kwargs["section_id"]
+        return reverse_lazy(
             "messages_on_theme",
             kwargs={
                 "section_id": section_id,
                 "theme_id": theme_id,
             },
         )
-        return super().form_valid(form)
 
 
 class CreateTheme(LoginRequiredMixin, DataMixin, CreateView):
@@ -102,17 +101,15 @@ class CreateTheme(LoginRequiredMixin, DataMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        return super().form_valid(form)
 
-        self.object = form.save()
-
+    def get_success_url(self):
         section_id = self.object.section.pk
         theme_id = self.object.pk
-
-        self.success_url = reverse_lazy(
+        return reverse_lazy(
             "messages_on_theme",
             kwargs={
                 "section_id": section_id,
                 "theme_id": theme_id,
             },
         )
-        return super().form_valid(form)

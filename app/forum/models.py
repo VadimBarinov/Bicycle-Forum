@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import F
 from django.urls import reverse
 
 
@@ -31,7 +32,7 @@ class Theme(models.Model):
         on_delete=models.PROTECT,
         related_name="theme",
     )
-    messages_count = models.IntegerField(default=0)
+    messages_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -73,10 +74,29 @@ class Message(models.Model):
         related_name="all_parents",
         null=True,
     )
+    is_active = models.BooleanField(
+        default=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.pk)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        Theme.objects.filter(pk=self.theme.pk).update(
+            messages_count=Message.objects.filter(
+                is_active=True,
+            ).count(),
+        )
+
+    def deactivate_message(self):
+        self.is_active = False
+        Theme.objects.filter(pk=self.theme.pk).update(
+            messages_count=Message.objects.filter(
+                is_active=True,
+            ).count(),
+        )
 
     class Meta:
         verbose_name = "Сообщение"
