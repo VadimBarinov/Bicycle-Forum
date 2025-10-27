@@ -6,6 +6,8 @@
 <div class="container">
     <h1>Новое сообщение</h1>
 
+    <h3>Тема: {{ theme.title }}</h3>
+
         <form method="post">
             {% csrf_token %}
             {% for f in form %}
