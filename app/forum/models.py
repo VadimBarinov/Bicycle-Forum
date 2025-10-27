@@ -87,6 +87,7 @@ class Message(models.Model):
         Theme.objects.filter(pk=self.theme.pk).update(
             messages_count=Message.objects.filter(
                 is_active=True,
+                theme__pk=self.theme.pk,
             ).count(),
         )
 
@@ -95,6 +96,7 @@ class Message(models.Model):
         Theme.objects.filter(pk=self.theme.pk).update(
             messages_count=Message.objects.filter(
                 is_active=True,
+                theme__pk=self.theme.pk,
             ).count(),
         )
 
