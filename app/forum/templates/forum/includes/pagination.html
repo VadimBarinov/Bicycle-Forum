@@ -1,37 +1,54 @@
 <!-- пагинация -->
-<!-- надо будет добавить проверку на input_value -->
 <nav class="list-pages">
-<ul>
+    <ul>
 
-  <li class="page-num">
-    <a class="border my-border" href="?page=1">&laquo;</a>
-  </li>
+      <li class="page-num">
 
-  {% for p in paginator.page_range %}
+        {% if input_value %}
+        <a class="border my-border" href="?query={{input_value}}&page=1">&laquo;</a>
+        {% else %}
+        <a class="border my-border" href="?page=1">&laquo;</a>
+        {% endif %}
 
-  {% if page_obj.number == p %}
+      </li>
 
-  <li class="page-num page-num-selected">{{ p }}</li>
+      {% for p in paginator.page_range %}
 
-  {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
+      {% if page_obj.number == p %}
+      <li class="page-num page-num-selected">{{ p }}</li>
+      {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
+      <li class="page-num">
 
-  <li class="page-num">
-    <a class="border my-border" href="?page={{ p }}">{{ p }}</a>
-  </li>
+        {% if input_value %}
+        <a class="border my-border" href="?query={{input_value}}&page={{ p }}">{{ p }}</a>
+        {% else %}
+        <a class="border my-border" href="?page={{ p }}">{{ p }}</a>
+        {% endif %}
 
-  {% elif p == page_obj.number|add:-2 or p == page_obj.number|add:2%}
+      </li>
+      {% elif p == page_obj.number|add:-2 or p == page_obj.number|add:2%}
+      <li class="page-num d-none d-md-inline-block d-lg-inline-block">
 
-  <li class="page-num d-none d-md-inline-block d-lg-inline-block">
-    <a class="border my-border" href="?page={{ p }}">{{ p }}</a>
-  </li>
+        {% if input_value %}
+        <a class="border my-border" href="?query={{input_value}}&page={{ p }}">{{ p }}</a>
+        {% else %}
+        <a class="border my-border" href="?page={{ p }}">{{ p }}</a>
+        {% endif %}
 
-  {% endif %}
+      </li>
+      {% endif %}
 
-  {% endfor %}
+      {% endfor %}
 
-  <li class="page-num">
-    <a class="border my-border" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
-  </li>
+      <li class="page-num">
 
-</ul>
+        {% if input_value %}
+        <a class="border my-border" href="?query={{input_value}}&page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+        {% else %}
+        <a class="border my-border" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+        {% endif %}
+
+      </li>
+
+    </ul>
 </nav>

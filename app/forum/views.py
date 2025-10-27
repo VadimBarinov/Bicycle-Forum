@@ -1,4 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import (
+    Q,
+    F,
+    Value,
+    CharField,
+)
+from django.db.models.functions import Concat
 from django.urls import reverse_lazy
 from django.views.generic import (
     TemplateView,
@@ -29,6 +36,32 @@ class HomePage(DataMixin, ListView):
     context_object_name = "themes"
     paginate_by = 10
 
+    def get_queryset(self):
+        all_themes = Theme.objects.all()
+        query = self.request.GET.get("query")
+        if query:
+            object_list = all_themes.annotate(
+                section_and_title_and_author=Concat(
+                    F("section__title"),
+                    Value(" "),
+                    F("title"),
+                    Value(" "),
+                    F("author__username"),
+                    output_field=CharField(),
+                )
+            ).filter(
+                Q(section_and_title_and_author__icontains=query)
+            )
+            return object_list
+        return all_themes
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        input_value = self.request.GET.get("query")
+        return self.get_mixin_context(
+            context,
+            input_value=input_value,
+        )
 
 class MessagesOnThemeList(DataMixin, ListView):
     model = Message
@@ -37,20 +70,35 @@ class MessagesOnThemeList(DataMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        # нужно будет учитывать строку поиска
-        return Message.objects.filter(
+        all_messages = Message.objects.filter(
             theme__pk=self.kwargs["theme_id"]
         )
+        query = self.request.GET.get("query")
+        if query:
+            object_list = all_messages.annotate(
+                content_and_author=Concat(
+                    F("content"),
+                    Value(" "),
+                    F("author__username"),
+                    output_field=CharField(),
+                )
+            ).filter(
+                Q(content_and_author__icontains=query)
+            )
+            return object_list
+        return all_messages
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        input_value = self.request.GET.get("query")
         theme_id = self.kwargs["theme_id"]
         section_id = self.kwargs["section_id"]
         title = Theme.objects.get(pk=theme_id).title
 
         return self.get_mixin_context(
             context,
+            input_value=input_value,
             theme_id=theme_id,
             section_id=section_id,
             title=title,

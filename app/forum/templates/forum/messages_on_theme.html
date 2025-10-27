@@ -5,6 +5,8 @@
 
 <div class="container">
 
+    {% include 'forum/includes/query_filter.html' %}
+
     <h1>{{ title }}</h1>
 
     <a href="{% url 'create_message' section_id=section_id theme_id=theme_id %}">

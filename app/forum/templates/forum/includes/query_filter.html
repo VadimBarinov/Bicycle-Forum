@@ -1,0 +1,32 @@
+{%load static%}
+<!-- фильтр -->
+<div class="d-flex row">
+    <div class="col-0 col-lg-3"></div>
+        <div class="col-12 col-lg-6 my-catalog-filter">
+          <form method="get">
+            <div class="d-flex mb-3 search-container">
+              <div class="d-flex">
+                <div class="input-box my-search-box">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="query"
+
+                    {% if input_value %}
+                    value="{{ input_value }}"
+                    {% endif %}
+
+                  />
+                  <img src="{% static 'forum/images/search.svg' %}" class="my-search-icon" />
+                </div>
+              </div>
+              <div class="d-flex">
+                <div>
+                  <button type="submit" class="border my-border my-btn-search btn-right">Поиск</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+    <div class="col-0 col-lg-3"></div>
+</div>
