@@ -3,11 +3,22 @@
 
 <div class="d-flex section-filter-container">
     <div>
-        <button class="border my-border my-btn-search btn-right" type="button">
-            <img
-              width="20"
-              src="{% static 'forum/images/ascending_filter.png' %}"
-            />
-        </button>
+        <form method="get">
+            {% if is_ascending %}
+                <button type="submit" class="border my-border my-btn-search btn-right" name="is_ascending">
+                    <img
+                      width="20"
+                      src="{% static 'forum/images/ascending_filter.png' %}"
+                    />
+                </button>
+            {% else %}
+                <button type="submit" class="border my-border my-btn-search btn-right" name="is_descending">
+                    <img
+                      width="20"
+                      src="{% static 'forum/images/descending_filter.png' %}"
+                    />
+                </button>
+            {% endif %}
+        </form>
     </div>
 </div>

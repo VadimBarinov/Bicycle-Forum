@@ -58,10 +58,11 @@ class ThemeList(DataMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        all_themes = Theme.objects.all()
+        object_list = Theme.objects.all()
         query = self.request.GET.get("query")
+
         if query and query != "":
-            object_list = all_themes.annotate(
+            object_list = object_list.annotate(
                 section_and_title_and_author=Concat(
                     F("section__title"),
                     Value(" "),
@@ -73,15 +74,28 @@ class ThemeList(DataMixin, ListView):
             ).filter(
                 Q(section_and_title_and_author__icontains=query)
             )
-            return object_list
-        return all_themes
+
+        if "is_descending" in self.request.GET:
+            object_list =object_list.order_by("-pk")
+        elif "is_ascending" in self.request.GET:
+            object_list = object_list.order_by("pk")
+
+        return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         input_value = self.request.GET.get("query")
+
+        is_ascending = 0
+        if "is_descending" in self.request.GET:
+            is_ascending = 1
+        elif "is_ascending" in self.request.GET:
+            is_ascending = 0
+
         return self.get_mixin_context(
             context,
             input_value=input_value,
+            is_ascending=is_ascending,
         )
 
 
