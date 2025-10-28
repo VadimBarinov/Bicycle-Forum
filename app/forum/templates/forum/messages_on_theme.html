@@ -9,11 +9,19 @@
 
     <h1>{{ title }}</h1>
 
-    <a href="{% url 'create_message' section_id=section_id theme_id=theme_id %}">
-        <button class="btn btn-primary">
-            Новое сообщение
-        </button>
-    </a>
+    <div class="d-flex row">
+        <div class="col-8">
+            <a href="{% url 'create_message' section_id=section_id theme_id=theme_id %}">
+                <button class="btn btn-primary">
+                    Новое сообщение
+                </button>
+            </a>
+        </div>
+
+        <div class="col-4">
+            {% include 'forum/includes/ascending_or_descending_filter.html' %}
+        </div>
+    </div>
 
     {% for message in messages %}
         <div class="border p-3 my-3">

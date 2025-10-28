@@ -7,13 +7,19 @@
 
     {% include 'forum/includes/query_filter.html' %}
 
-    <a href="{% url 'create_theme' %}">
-        <button class="btn btn-primary">
-            Новая тема
-        </button>
-    </a>
+    <div class="d-flex row">
+        <div class="col-8">
+            <a href="{% url 'create_theme' %}">
+                <button class="btn btn-primary">
+                    Новая тема
+                </button>
+            </a>
+        </div>
 
-    {% include 'forum/includes/ascending_or_descending_filter.html' %}
+        <div class="col-4">
+            {% include 'forum/includes/ascending_or_descending_filter.html' %}
+        </div>
+    </div>
 
     {% for theme in themes %}
         <div class="border p-3 my-3">
