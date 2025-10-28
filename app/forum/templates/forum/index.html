@@ -13,13 +13,15 @@
         </button>
     </a>
 
+    {% include 'forum/includes/section_filter.html' %}
+
     {% for section in sections %}
-        <div class="border p-2 m-2">
+        <div class="border p-3 my-3">
             <h2>
                 <a href="{{ section.get_absolute_url }}">{{ section.title }}</a>
             </h2>
             {% for theme in section.theme.all|slice:":3" %}
-                <div class="border p-2 m-2">
+                <div class="border p-3 my-3">
                     <p>
                         <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
                     </p>
