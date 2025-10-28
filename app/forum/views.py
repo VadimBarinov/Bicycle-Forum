@@ -60,6 +60,7 @@ class ThemeList(DataMixin, ListView):
     def get_queryset(self):
         object_list = Theme.objects.all()
         query = self.request.GET.get("query")
+        is_ascending = self.request.GET.get("is_ascending")
 
         if query and query != "":
             object_list = object_list.annotate(
@@ -75,9 +76,9 @@ class ThemeList(DataMixin, ListView):
                 Q(section_and_title_and_author__icontains=query)
             )
 
-        if "is_descending" in self.request.GET:
-            object_list =object_list.order_by("-pk")
-        elif "is_ascending" in self.request.GET:
+        if is_ascending:
+            object_list = object_list.order_by("-pk")
+        else:
             object_list = object_list.order_by("pk")
 
         return object_list
@@ -85,12 +86,11 @@ class ThemeList(DataMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         input_value = self.request.GET.get("query")
-
-        is_ascending = 0
-        if "is_descending" in self.request.GET:
-            is_ascending = 1
-        elif "is_ascending" in self.request.GET:
-            is_ascending = 0
+        ascending_value = self.request.GET.get("is_ascending")
+        if ascending_value:
+            is_ascending = False
+        else:
+            is_ascending = True
 
         return self.get_mixin_context(
             context,
@@ -106,12 +106,14 @@ class ThemesOnSectionList(DataMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        all_themes = Theme.objects.filter(
+        object_list = Theme.objects.filter(
             section__pk=self.kwargs["section_id"]
         )
         query = self.request.GET.get("query")
+        is_ascending = self.request.GET.get("is_ascending")
+
         if query and query != "":
-            object_list = all_themes.annotate(
+            object_list = object_list.annotate(
                 section_and_title_and_author=Concat(
                     F("section__title"),
                     Value(" "),
@@ -123,18 +125,29 @@ class ThemesOnSectionList(DataMixin, ListView):
             ).filter(
                 Q(section_and_title_and_author__icontains=query)
             )
-            return object_list
-        return all_themes
+
+        if is_ascending:
+            object_list = object_list.order_by("-pk")
+        else:
+            object_list = object_list.order_by("pk")
+
+        return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         input_value = self.request.GET.get("query")
         section_id = self.kwargs["section_id"]
         title = Section.objects.get(pk=section_id).title
+        ascending_value = self.request.GET.get("is_ascending")
+        if ascending_value:
+            is_ascending = False
+        else:
+            is_ascending = True
 
         return self.get_mixin_context(
             context,
             input_value=input_value,
+            is_ascending=is_ascending,
             section_id=section_id,
             title=title,
         )
@@ -147,12 +160,14 @@ class MessagesOnThemeList(DataMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        all_messages = Message.objects.filter(
+        object_list = Message.objects.filter(
             theme__pk=self.kwargs["theme_id"]
         )
         query = self.request.GET.get("query")
+        is_ascending = self.request.GET.get("is_ascending")
+
         if query and query != "":
-            object_list = all_messages.annotate(
+            object_list = object_list.annotate(
                 content_and_author=Concat(
                     F("content"),
                     Value(" "),
@@ -162,8 +177,13 @@ class MessagesOnThemeList(DataMixin, ListView):
             ).filter(
                 Q(content_and_author__icontains=query)
             )
-            return object_list
-        return all_messages
+
+        if is_ascending:
+            object_list = object_list.order_by("-pk")
+        else:
+            object_list = object_list.order_by("pk")
+
+        return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -172,10 +192,16 @@ class MessagesOnThemeList(DataMixin, ListView):
         theme_id = self.kwargs["theme_id"]
         section_id = self.kwargs["section_id"]
         title = Theme.objects.get(pk=theme_id).title
+        ascending_value = self.request.GET.get("is_ascending")
+        if ascending_value:
+            is_ascending = False
+        else:
+            is_ascending = True
 
         return self.get_mixin_context(
             context,
             input_value=input_value,
+            is_ascending=is_ascending,
             theme_id=theme_id,
             section_id=section_id,
             title=title,
