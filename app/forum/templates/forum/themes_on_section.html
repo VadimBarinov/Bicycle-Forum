@@ -1,0 +1,34 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block content%}
+
+<div class="container">
+
+    {% include 'forum/includes/query_filter.html' %}
+
+    <h1>{{ title }}</h1>
+
+    <a href="{% url 'create_theme_with_section' section_id=section_id %}">
+        <button class="btn btn-primary">
+            Новая тема
+        </button>
+    </a>
+
+    {% for theme in themes %}
+        <div class="border p-2 m-2">
+            <p>
+                <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
+            </p>
+            <p>Автор: {{ theme.author }}</p>
+            <p>Сообщений: {{ theme.messages_count }}</p>
+            <p>Раздел: {{ theme.section.title }}</p>
+            <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% include 'forum/includes/pagination.html' %}
+
+{%endblock%}

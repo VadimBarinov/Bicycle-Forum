@@ -43,6 +43,24 @@ class CreateThemeForm(ModelForm):
         }
 
 
+class CreateThemeWithSectionForm(ModelForm):
+
+    class Meta:
+        model = Theme
+        fields = [
+            "title",
+        ]
+        labels = {
+            "title": "Тема",
+        }
+        widgets = {
+            "title": TextInput(attrs={
+                'class': 'form-input my-border form-control',
+                'placeholder': 'Название темы'
+            }),
+        }
+
+
 class CreateMessageForm(ModelForm):
 
     class Meta:

@@ -13,15 +13,22 @@
         </button>
     </a>
 
-    {% for theme in themes %}
+    {% for section in sections %}
         <div class="border p-2 m-2">
-            <p>
-                <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
-            </p>
-            <p>Автор: {{ theme.author }}</p>
-            <p>Сообщений: {{ theme.messages_count }}</p>
-            <p>Раздел: {{ theme.section.title }}</p>
-            <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+            <h2>
+                <a href="{{ section.get_absolute_url }}">{{ section.title }}</a>
+            </h2>
+            {% for theme in section.theme.all|slice:":3" %}
+                <div class="border p-2 m-2">
+                    <p>
+                        <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
+                    </p>
+                    <p>Автор: {{ theme.author }}</p>
+                    <p>Сообщений: {{ theme.messages_count }}</p>
+                    <p>Раздел: {{ theme.section.title }}</p>
+                    <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+                </div>
+            {% endfor %}
         </div>
     {% endfor %}
 

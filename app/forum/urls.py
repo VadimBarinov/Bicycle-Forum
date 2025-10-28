@@ -3,11 +3,13 @@ from django.urls import path
 from .views import (
     HomePage,
     ShowAbout,
+    ThemesOnSectionList,
+    ThemeList,
     MessagesOnThemeList,
     CreateMessage,
     CreateTheme,
+    CreateThemeWithSection,
 )
-
 urlpatterns = [
     path(
         "",
@@ -15,9 +17,19 @@ urlpatterns = [
         name="home",
     ),
     path(
+        "themes/",
+        ThemeList.as_view(),
+        name="theme_list",
+    ),
+    path(
         "about/",
         ShowAbout.as_view(),
         name="about",
+    ),
+    path(
+        "section/<int:section_id>/",
+        ThemesOnSectionList.as_view(),
+        name="themes_on_section",
     ),
     path(
         "section/<int:section_id>/theme/<int:theme_id>/",
@@ -33,5 +45,10 @@ urlpatterns = [
         "create_theme/",
         CreateTheme.as_view(),
         name="create_theme",
+    ),
+    path(
+        "section/<int:section_id>/create_theme/",
+        CreateThemeWithSection.as_view(),
+        name="create_theme_with_section",
     ),
 ]
