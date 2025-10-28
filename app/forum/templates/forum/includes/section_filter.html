@@ -1,10 +1,13 @@
 {%load static%}
 <!-- фильтр -->
 
-<div class="dropdown d-flex section-filter-container my-3">
+<div class="dropdown d-flex section-filter-container">
     <div>
         <button class="dropdown-toggle border my-border my-btn-search btn-right" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Кнопка выпадающего списка
+            <img
+              width="20"
+              src="{% static 'forum/images/filter_icon.png' %}"
+            />
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="#">Действие</a></li>
