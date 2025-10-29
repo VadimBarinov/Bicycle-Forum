@@ -10,6 +10,7 @@ from django.views.generic import (
 )
 
 from forum.forms import (
+    SectionFilterForm,
     CreateThemeForm,
     CreateThemeWithSectionForm,
     CreateMessageForm,
@@ -39,14 +40,36 @@ class HomePage(DataMixin, ListView):
     context_object_name = "sections"
     paginate_by = 3
 
+    section_filter_form = SectionFilterForm
+
     def get(self, request, *args, **kwargs):
         query = self.request.GET.get("query")
-        if query and query != "":
+        if query:
             params = {"query": query}
             base_url = reverse_lazy("theme_list")
             url = f"{base_url}?{urlencode(params)}"
             return redirect(url)
         return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        if "save_sections" in self.request.GET:
+            form = SectionFilterForm(self.request.GET)
+            if form.is_valid():
+                selected_sections = form.cleaned_data["sections"]
+                if selected_sections:
+                    self.section_filter_form = form
+                    return selected_sections
+        elif "reset_sections" in self.request.GET:
+            self.section_filter_form = SectionFilterForm
+            return self.model.objects.all()
+        return self.model.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return self.get_mixin_context(
+            context,
+            form = self.section_filter_form,
+        )
 
 
 class ThemeList(DataMixin, ListView):
@@ -60,7 +83,7 @@ class ThemeList(DataMixin, ListView):
     query = None
 
     def get_queryset(self):
-        object_list = Theme.objects.all()
+        object_list = self.model.objects.all()
         self.query = self.request.GET.get("query")
         object_list = get_theme_list_with_query(
             object_list,
@@ -92,7 +115,7 @@ class ThemesOnSectionList(DataMixin, ListView):
     query = None
 
     def get_queryset(self):
-        object_list = Theme.objects.filter(
+        object_list = self.model.objects.filter(
             section__pk=self.kwargs["section_id"]
         )
         self.query = self.request.GET.get("query")
@@ -130,7 +153,7 @@ class MessagesOnThemeList(DataMixin, ListView):
     query = None
 
     def get_queryset(self):
-        object_list = Message.active.filter(
+        object_list = self.model.active.filter(
             theme__pk=self.kwargs["theme_id"]
         )
         self.query = self.request.GET.get("query")

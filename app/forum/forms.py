@@ -1,9 +1,12 @@
 from django.forms import (
+    Form,
+    ModelMultipleChoiceField,
     ModelForm,
     ModelChoiceField,
     TextInput,
 )
 from django.forms.widgets import (
+    CheckboxSelectMultiple,
     Select,
     Textarea,
 )
@@ -13,6 +16,16 @@ from forum.models import (
     Section,
     Message,
 )
+
+
+class SectionFilterForm(Form):
+    sections = ModelMultipleChoiceField(
+        queryset=Section.objects.all(),
+        widget=CheckboxSelectMultiple(attrs={
+            'class': 'transformed-checkbox',
+        }),
+        required=False,
+    )
 
 
 class CreateThemeForm(ModelForm):

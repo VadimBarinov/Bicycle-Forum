@@ -9,10 +9,18 @@
               src="{% static 'forum/images/filter_icon.png' %}"
             />
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Действие</a></li>
-            <li><a class="dropdown-item" href="#">Другое действие</a></li>
-            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
-        </ul>
+        <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
+            <form method="get">
+                {% for f in form.sections %}
+                    <div class="px-3 py-2">{{ f }}</div>
+                {% endfor %}
+                <div class="px-3 py-2">
+                    <button class="btn btn-primary" type="submit" name="save_sections">Сохранить</button>
+                </div>
+                <div class="px-3 py-2">
+                    <button class="btn btn-outline-primary" type="submit" name="reset_sections">Очистить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
