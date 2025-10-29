@@ -13,21 +13,19 @@
                 {% endif %}
 
             />
-            {% if is_ascending %}
-                <button type="submit" class="border my-border my-btn-search btn-right">
-                    <img
-                      width="20"
-                      src="{% static 'forum/images/descending_filter.png' %}"
-                    />
-                </button>
-            {% else %}
-                <button type="submit" class="border my-border my-btn-search btn-right">
-                    <img
-                      width="20"
-                      src="{% static 'forum/images/ascending_filter.png' %}"
-                    />
-                </button>
-            {% endif %}
+            <button type="submit" class="border my-border my-btn-search btn-right" name="click_ascending">
+                {% if is_ascending %}
+                <img
+                  width="20"
+                  src="{% static 'forum/images/ascending_filter.png' %}"
+                />
+                {% else %}
+                <img
+                  width="20"
+                  src="{% static 'forum/images/descending_filter.png' %}"
+                />
+                {% endif %}
+            </button>
         </form>
     </div>
 </div>

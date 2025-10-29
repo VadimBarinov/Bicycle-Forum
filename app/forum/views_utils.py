@@ -38,6 +38,14 @@ def get_message_list_with_query(
     return object_list
 
 
+def check_click_ascending(request):
+    if "click_ascending" in request.GET:
+        is_ascending = not bool(request.GET.get("is_ascending"))
+    else:
+        is_ascending = bool(request.GET.get("is_ascending"))
+    return is_ascending
+
+
 def sort_in_ascending_or_descending_order(
         object_list,
         is_ascending,

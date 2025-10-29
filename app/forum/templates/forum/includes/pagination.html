@@ -3,7 +3,7 @@
     <ul>
 
       <li class="page-num">
-        <a class="border my-border" href="?{% if input_value %}query={{ input_value }}&{% endif %}page=1">&laquo;</a>
+        <a class="border my-border" href="?{% if query %}query={{ query }}&{% endif %}{% if is_ascending %}is_ascending={{ is_ascending }}&{% endif %}page=1">&laquo;</a>
       </li>
 
       {% for p in paginator.page_range %}
@@ -12,18 +12,18 @@
       <li class="page-num page-num-selected">{{ p }}</li>
       {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
       <li class="page-num">
-        <a class="border my-border" href="?{% if input_value %}query={{ input_value }}&{% endif %}page={{ p }}">{{ p }}</a>
+        <a class="border my-border" href="?{% if query %}query={{ query }}&{% endif %}{% if is_ascending %}is_ascending={{ is_ascending }}&{% endif %}page={{ p }}">{{ p }}</a>
       </li>
       {% elif p == page_obj.number|add:-2 or p == page_obj.number|add:2%}
       <li class="page-num d-none d-md-inline-block d-lg-inline-block">
-        <a class="border my-border" href="?{% if input_value %}query={{ input_value }}&{% endif %}page={{ p }}">{{ p }}</a>
+        <a class="border my-border" href="?{% if query %}query={{ query }}&{% endif %}{% if is_ascending %}is_ascending={{ is_ascending }}&{% endif %}page={{ p }}">{{ p }}</a>
       </li>
       {% endif %}
 
       {% endfor %}
 
       <li class="page-num">
-        <a class="border my-border" href="?{% if input_value %}query={{ input_value }}&{% endif %}page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+        <a class="border my-border" href="?{% if query %}query={{ query }}&{% endif %}{% if is_ascending %}is_ascending={{ is_ascending }}&{% endif %}page={{ page_obj.paginator.num_pages }}">&raquo;</a>
       </li>
 
     </ul>
