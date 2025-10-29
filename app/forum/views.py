@@ -1,13 +1,6 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import (
-    Q,
-    F,
-    Value,
-    CharField,
-)
-from django.db.models.functions import Concat
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -26,6 +19,11 @@ from forum.models import (
     Message, Section,
 )
 from forum.utils import DataMixin
+from forum.views_utils import (
+    get_theme_list_with_query,
+    get_message_list_with_query,
+    sort_in_ascending_or_descending_order,
+)
 
 
 class ShowAbout(DataMixin, TemplateView):
@@ -61,26 +59,13 @@ class ThemeList(DataMixin, ListView):
         object_list = Theme.objects.all()
         query = self.request.GET.get("query")
         is_ascending = self.request.GET.get("is_ascending")
-
-        if query and query != "":
-            object_list = object_list.annotate(
-                section_and_title_and_author=Concat(
-                    F("section__title"),
-                    Value(" "),
-                    F("title"),
-                    Value(" "),
-                    F("author__username"),
-                    output_field=CharField(),
-                )
-            ).filter(
-                Q(section_and_title_and_author__icontains=query)
-            )
-
-        if is_ascending:
-            object_list = object_list.order_by("-pk")
-        else:
-            object_list = object_list.order_by("pk")
-
+        object_list = get_theme_list_with_query(
+            object_list, query
+        )
+        object_list = sort_in_ascending_or_descending_order(
+            object_list,
+            is_ascending,
+        )
         return object_list
 
     def get_context_data(self, **kwargs):
@@ -111,26 +96,13 @@ class ThemesOnSectionList(DataMixin, ListView):
         )
         query = self.request.GET.get("query")
         is_ascending = self.request.GET.get("is_ascending")
-
-        if query and query != "":
-            object_list = object_list.annotate(
-                section_and_title_and_author=Concat(
-                    F("section__title"),
-                    Value(" "),
-                    F("title"),
-                    Value(" "),
-                    F("author__username"),
-                    output_field=CharField(),
-                )
-            ).filter(
-                Q(section_and_title_and_author__icontains=query)
-            )
-
-        if is_ascending:
-            object_list = object_list.order_by("-pk")
-        else:
-            object_list = object_list.order_by("pk")
-
+        object_list = get_theme_list_with_query(
+            object_list, query
+        )
+        object_list = sort_in_ascending_or_descending_order(
+            object_list,
+            is_ascending,
+        )
         return object_list
 
     def get_context_data(self, **kwargs):
@@ -165,24 +137,14 @@ class MessagesOnThemeList(DataMixin, ListView):
         )
         query = self.request.GET.get("query")
         is_ascending = self.request.GET.get("is_ascending")
-
-        if query and query != "":
-            object_list = object_list.annotate(
-                content_and_author=Concat(
-                    F("content"),
-                    Value(" "),
-                    F("author__username"),
-                    output_field=CharField(),
-                )
-            ).filter(
-                Q(content_and_author__icontains=query)
-            )
-
-        if is_ascending:
-            object_list = object_list.order_by("-pk")
-        else:
-            object_list = object_list.order_by("pk")
-
+        object_list = get_message_list_with_query(
+            object_list,
+            query,
+        )
+        object_list = sort_in_ascending_or_descending_order(
+            object_list,
+            is_ascending,
+        )
         return object_list
 
     def get_context_data(self, **kwargs):
