@@ -11,7 +11,7 @@
         </button>
         <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
             <form method="get">
-                {% for f in form.sections %}
+                {% for f in section_filter_form.sections %}
                     <div class="px-3 py-2">{{ f }}</div>
                 {% endfor %}
                 <div class="px-3 py-2">

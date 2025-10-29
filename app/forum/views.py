@@ -68,7 +68,7 @@ class HomePage(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(
             context,
-            form = self.section_filter_form,
+            section_filter_form = self.section_filter_form,
         )
 
 
