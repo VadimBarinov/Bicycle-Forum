@@ -13,6 +13,13 @@
                 {% endif %}
 
             />
+            <input
+                type="hidden"
+                name="query"
+                {% if query %}
+                    value="{{ query }}"
+                {% endif %}
+            />
             <button type="submit" class="border my-border my-btn-search btn-right" name="click_ascending">
                 {% if is_ascending %}
                 <img

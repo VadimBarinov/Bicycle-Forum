@@ -7,16 +7,21 @@
         <div class="d-flex mb-3 search-container">
           <div class="d-flex">
             <div class="input-box my-search-box">
-              <input
-                class="form-control"
-                type="text"
-                name="query"
-
-                {% if query %}
-                value="{{ query }}"
-                {% endif %}
-
-              />
+                <input
+                    type="hidden"
+                    name="is_ascending"
+                    {% if is_ascending %}
+                        value="{{ is_ascending }}"
+                    {% endif %}
+                />
+                <input
+                    class="form-control"
+                    type="text"
+                    name="query"
+                    {% if query %}
+                        value="{{ query }}"
+                    {% endif %}
+                />
               <img src="{% static 'forum/images/search.svg' %}" class="my-search-icon" />
             </div>
           </div>
