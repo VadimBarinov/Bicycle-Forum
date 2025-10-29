@@ -130,7 +130,7 @@ class MessagesOnThemeList(DataMixin, ListView):
     query = None
 
     def get_queryset(self):
-        object_list = Message.objects.filter(
+        object_list = Message.active.filter(
             theme__pk=self.kwargs["theme_id"]
         )
         self.query = self.request.GET.get("query")

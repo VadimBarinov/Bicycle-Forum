@@ -63,6 +63,11 @@ class Theme(models.Model):
         ]
 
 
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+
 class Message(models.Model):
     theme = models.ForeignKey(
         "Theme",
@@ -85,6 +90,9 @@ class Message(models.Model):
         default=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()
+    active = ActiveManager()
 
     def __str__(self):
         return str(self.pk)
