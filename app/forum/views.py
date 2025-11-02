@@ -41,6 +41,7 @@ class HomePage(DataMixin, ListView):
     paginate_by = 3
 
     section_filter_form = SectionFilterForm
+    selected_sections = []
 
     def get(self, request, *args, **kwargs):
         query = self.request.GET.get("query")
@@ -58,9 +59,14 @@ class HomePage(DataMixin, ListView):
                 selected_sections = form.cleaned_data["sections"]
                 if selected_sections:
                     self.section_filter_form = form
+                    self.selected_sections = [
+                        section.pk for section in selected_sections
+                    ]
+                    print(self.selected_sections)
                     return selected_sections
         elif "reset_sections" in self.request.GET:
             self.section_filter_form = SectionFilterForm
+            self.selected_sections = []
             return self.model.objects.all()
         return self.model.objects.all()
 
@@ -69,6 +75,7 @@ class HomePage(DataMixin, ListView):
         return self.get_mixin_context(
             context,
             section_filter_form = self.section_filter_form,
+            selected_sections = self.selected_sections,
         )
 
 
