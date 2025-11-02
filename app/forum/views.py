@@ -52,7 +52,7 @@ class HomePage(DataMixin, ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        if "save_sections" in self.request.GET:
+        if "sections" in self.request.GET:
             form = SectionFilterForm(self.request.GET)
             if form.is_valid():
                 selected_sections = form.cleaned_data["sections"]
