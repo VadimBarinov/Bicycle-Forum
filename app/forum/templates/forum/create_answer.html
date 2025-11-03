@@ -7,6 +7,7 @@
     <h1>{{ title }}</h1>
 
     <h3>Тема: {{ theme.title }}</h3>
+    <h3>Сообщение: {{ parent.pk }}</h3>
 
         <form method="post">
             {% csrf_token %}
@@ -24,6 +25,7 @@
             {% endfor %}
             <button type="submit">Submit</button>
         </form>
+
 </div>
 
 {% endblock %}

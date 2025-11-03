@@ -33,6 +33,11 @@
             {% endif %}
 
             <p>{{ message.created_at|date:"d.m.Y, H:i" }}</p>
+            <a href="{% url 'create_answer' section_id=section_id theme_id=theme_id message_id=message.pk %}">
+                <button class="btn btn-outline-primary">
+                    Ответить
+                </button>
+            </a>
         </div>
     {% endfor %}
 
