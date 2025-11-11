@@ -309,8 +309,6 @@ body {
 
 .my-catalog-filter {
   width: 100%;
-  padding-left: 2.2rem !important;
-  padding-right: 2.2rem !important;
 }
 
 .my-search-box {
@@ -658,4 +656,53 @@ body {
 
 .message-on-theme:target .message-content {
   color: #ff7a00;
+}
+
+.border-color-orange {
+  box-shadow: inset 0 0 0 2.1px #ff7a00;
+}
+
+.section-container {
+  font-size: 2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.section-container:hover {
+  opacity: 0.6;
+}
+
+.theme-container {
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.theme-container:hover {
+  color: black;
+  box-shadow: inset 0 0 0 2.1px #ff7a00;
+}
+
+.theme-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  box-orient: vertical;
+}
+
+.theme-title {
+  font-weight: 700;
+}
+
+.theme-info-container p {
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #595959;
 }

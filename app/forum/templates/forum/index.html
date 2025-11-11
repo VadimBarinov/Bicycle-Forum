@@ -1,5 +1,6 @@
 {%extends 'base.html'%}
 {%load static%}
+{%load forum_tags%}
 
 {%block content%}
 
@@ -7,7 +8,7 @@
 
     {% include 'forum/includes/query_filter.html' %}
 
-    <div class="d-flex row">
+    <div class="d-flex row mb-3">
         <div class="col-8">
             <a href="{% url 'create_theme' %}">
                 <button class="btn btn-primary">
@@ -22,20 +23,23 @@
     </div>
 
     {% for section in sections %}
-        <div class="border p-3 my-3">
-            <h2>
-                <a href="{{ section.get_absolute_url }}">{{ section.title }}</a>
-            </h2>
-            {% for theme in section.theme.all|slice:":3" %}
-                <div class="border p-3 my-3">
-                    <p>
-                        <a href="{{ theme.get_absolute_url }}">{{ theme.title }}</a>
-                    </p>
-                    <p>Автор: {{ theme.author }}</p>
-                    <p>Сообщений: {{ theme.messages_count }}</p>
-                    <p>Раздел: {{ theme.section.title }}</p>
-                    <p>{{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+        <div class="mt-3">
+            <a class="onclick-card" href="{{ section.get_absolute_url }}">
+                <div class="my-border border-color-orange">
+                    <div class="section-container p-3">
+                        <div class="d-flex row">
+                            <div class="col-10">
+                                {{ section.title }}
+                            </div>
+                            <div class="col-2 d-flex">
+                                <img class="ms-auto" src="{% static 'forum/images/right.svg' %}" width="20"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </a>
+            {% for theme in section.theme.all|slice:":3" %}
+                {% include 'forum/includes/theme_item.html' %}
             {% endfor %}
         </div>
     {% endfor %}

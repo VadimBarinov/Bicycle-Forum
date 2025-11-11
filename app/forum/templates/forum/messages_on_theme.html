@@ -1,5 +1,6 @@
 {%extends 'base.html'%}
 {%load static%}
+{%load forum_tags%}
 
 {%block content%}
 
@@ -22,6 +23,12 @@
             {% include 'forum/includes/ascending_or_descending_filter.html' %}
         </div>
     </div>
+
+    {% if not messages %}
+      <div class="empty-bikes">
+        <p>По вашему запросу ничего не найдено</p>
+      </div>
+    {% endif %}
 
     {% for message in messages %}
         <div class="message-on-theme border my-border p-3 my-3" id="message_{{ message.pk }}">

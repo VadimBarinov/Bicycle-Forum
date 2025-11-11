@@ -1,0 +1,42 @@
+{%load static%}
+{%load forum_tags%}
+
+<a class="onclick-card" href="{{ theme.get_absolute_url }}">
+    <div class="theme-container my-border border p-3 my-3">
+        <div class="d-flex row">
+            <div class="d-none d-md-flex col-md-2">
+                <img src="{{ default_gradient_bike }}" width="70%"/>
+            </div>
+            <div class="col-12 col-md-6">
+                <p class="theme-text theme-title">{{ theme.title }}</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="theme-info-container d-flex">
+                    <p>
+                        Автор:&nbsp
+                    </p>
+                    {% if theme.author.photo|find_image %}
+                      <img width="20" src="{{ theme.author.photo.url }}">
+                    {% else %}
+                      <img width="20" src="{{ default_profile }}">
+                    {% endif %}
+                    <p class="theme-text text-orange">
+                        &nbsp{{ theme.author.username }}
+                    </p>
+                </div>
+                <div class="theme-info-container d-flex">
+                    <p>
+                        Раздел:&nbsp
+                    </p>
+                    <p class="theme-text text-orange">
+                        {{ theme.section.title }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="border-top mt-3 pt-3 theme-info-container">
+            <p>Сообщений: {{ theme.messages_count }}</p>
+            <p>Последнее сообщение: {{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+        </div>
+    </div>
+</a>

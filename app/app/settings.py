@@ -160,3 +160,5 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'users.User'
 
 DEFAULT_PROFILE_IMAGE = MEDIA_URL + 'users/profile_icon.svg'
+DEFAULT_BIKE_IMAGE = MEDIA_URL + 'bikes/default.svg'
+DEFAULT_BIKE_GRADIENT_IMAGE = MEDIA_URL + 'bikes/default_gradient.svg'
