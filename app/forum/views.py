@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import (
     redirect,
     get_object_or_404
@@ -157,10 +158,31 @@ class MessagesOnThemeList(DataMixin, ListView):
     model = Message
     template_name = "forum/messages_on_theme.html"
     context_object_name = "messages"
-    paginate_by = 10
+    paginate_by = 2
 
     is_ascending = None
     query = None
+
+    def get(self, request, *args, **kwargs):
+        parent_id = self.request.GET.get("parent_id")
+        if parent_id:
+            base_url = reverse_lazy(
+                "messages_on_theme",
+                kwargs={
+                    "theme_id": self.kwargs["theme_id"],
+                    "section_id": self.kwargs["section_id"],
+                },
+            )
+            all_messages = list(
+                self.model.active.filter(
+                    theme__pk=self.kwargs["theme_id"]
+                ).values_list("pk", flat=True)
+            )
+            print(all_messages)
+            page = (all_messages.index(int(parent_id)) // self.paginate_by) + 1
+            url = f"{base_url}?page={page}#message_{parent_id}"
+            return redirect(url)
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         object_list = self.model.active.filter(
