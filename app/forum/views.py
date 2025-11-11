@@ -158,7 +158,7 @@ class MessagesOnThemeList(DataMixin, ListView):
     model = Message
     template_name = "forum/messages_on_theme.html"
     context_object_name = "messages"
-    paginate_by = 2
+    paginate_by = 10
 
     is_ascending = None
     query = None

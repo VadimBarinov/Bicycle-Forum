@@ -36,7 +36,9 @@
         </div>
         <div class="border-top mt-3 pt-3 theme-info-container">
             <p>Сообщений: {{ theme.messages_count }}</p>
-            <p>Последнее сообщение: {{ theme.created_at|date:"d.m.Y, H:i" }}</p>
+            {% if theme.messages_count > 0 %}
+            <p>Последнее сообщение: {{ theme.message.last.created_at|date:"d.m.Y, H:i" }}</p>
+            {% endif %}
         </div>
     </div>
 </a>
