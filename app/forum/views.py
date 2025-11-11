@@ -1,7 +1,10 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import (
+    redirect,
+    get_object_or_404
+)
 from django.urls import reverse_lazy
 from django.views.generic import (
     TemplateView,
@@ -179,7 +182,8 @@ class MessagesOnThemeList(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         theme_id = self.kwargs["theme_id"]
         section_id = self.kwargs["section_id"]
-        title = Theme.objects.get(pk=theme_id).title
+        theme = get_object_or_404(Theme, pk=theme_id)
+        title = theme.title
         return self.get_mixin_context(
             context,
             query=self.query,
@@ -200,7 +204,7 @@ class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
         context = super().get_context_data(**kwargs)
 
         theme_id = self.kwargs["theme_id"]
-        theme = Theme.objects.get(pk=theme_id)
+        theme = get_object_or_404(Theme, pk=theme_id)
 
         try:
             message_id = self.kwargs["message_id"]
