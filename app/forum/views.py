@@ -202,44 +202,11 @@ class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
         theme_id = self.kwargs["theme_id"]
         theme = Theme.objects.get(pk=theme_id)
 
-        return self.get_mixin_context(
-            context,
-            theme=theme,
-        )
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        theme = context["theme"]
-        form.instance.author = self.request.user
-        form.instance.theme = theme
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        theme_id = self.kwargs["theme_id"]
-        section_id = self.kwargs["section_id"]
-        return reverse_lazy(
-            "messages_on_theme",
-            kwargs={
-                "section_id": section_id,
-                "theme_id": theme_id,
-            },
-        )
-
-
-class CreateAnswer(LoginRequiredMixin, DataMixin, CreateView):
-    model = Message
-    form_class = CreateMessageForm
-    template_name = "forum/create_answer.html"
-    title_page = "Новое сообщение"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        theme_id = self.kwargs["theme_id"]
-        theme = Theme.objects.get(pk=theme_id)
-
-        message_id = self.kwargs["message_id"]
-        parent = Message.active.get(pk=message_id)
+        try:
+            message_id = self.kwargs["message_id"]
+            parent = Message.active.get(pk=message_id)
+        except KeyError:
+            parent = None
 
         return self.get_mixin_context(
             context,
@@ -253,7 +220,8 @@ class CreateAnswer(LoginRequiredMixin, DataMixin, CreateView):
         parent = context["parent"]
         form.instance.author = self.request.user
         form.instance.theme = theme
-        form.instance.parent = parent
+        if parent:
+            form.instance.parent = parent
         return super().form_valid(form)
 
     def get_success_url(self):

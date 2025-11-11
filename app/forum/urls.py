@@ -7,7 +7,6 @@ from .views import (
     ThemeList,
     MessagesOnThemeList,
     CreateMessage,
-    CreateAnswer,
     CreateTheme,
     CreateThemeWithSection,
 )
@@ -44,7 +43,7 @@ urlpatterns = [
     ),
     path(
         "section/<int:section_id>/theme/<int:theme_id>/message/<int:message_id>/create_answer/",
-        CreateAnswer.as_view(),
+        CreateMessage.as_view(),
         name="create_answer",
     ),
     path(

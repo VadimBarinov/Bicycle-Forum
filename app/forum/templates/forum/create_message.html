@@ -8,6 +8,10 @@
 
     <h3>Тема: {{ theme.title }}</h3>
 
+    {% if parent %}
+        <h3>Сообщение: {{ parent.pk }}</h3>
+    {% endif %}
+
         <form method="post">
             {% csrf_token %}
             {% for f in form %}
