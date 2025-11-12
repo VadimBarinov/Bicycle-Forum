@@ -1,7 +1,6 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
 from django.shortcuts import (
     redirect,
     get_object_or_404
@@ -21,7 +20,8 @@ from forum.forms import (
 )
 from forum.models import (
     Theme,
-    Message, Section,
+    Message,
+    Section,
 )
 from forum.utils import DataMixin
 from forum.views_utils import (
@@ -29,6 +29,7 @@ from forum.views_utils import (
     get_message_list_with_query,
     check_click_ascending,
     sort_in_ascending_or_descending_order,
+    delete_message,
 )
 
 
@@ -47,14 +48,14 @@ class HomePage(DataMixin, ListView):
     section_filter_form = SectionFilterForm
     selected_sections = []
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         query = self.request.GET.get("query")
         if query:
             params = {"query": query}
             base_url = reverse_lazy("theme_list")
             url = f"{base_url}?{urlencode(params)}"
             return redirect(url)
-        return super().get(request, *args, **kwargs)
+        return super().get(*args, **kwargs)
 
     def get_queryset(self):
         if "sections" in self.request.GET:
@@ -163,7 +164,7 @@ class MessagesOnThemeList(DataMixin, ListView):
     is_ascending = None
     query = None
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         parent_id = self.request.GET.get("parent_id")
         if parent_id:
             base_url = reverse_lazy(
@@ -180,9 +181,22 @@ class MessagesOnThemeList(DataMixin, ListView):
             )
             print(all_messages)
             page = (all_messages.index(int(parent_id)) // self.paginate_by) + 1
-            url = f"{base_url}?page={page}#message_{parent_id}"
+            url = f"{base_url}?page={page}#message{parent_id}"
             return redirect(url)
-        return super().get(request, *args, **kwargs)
+        return super().get(*args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        message_delete_id = self.request.POST.get("message_delete_id")
+        if message_delete_id:
+            delete_message(
+                user=self.request.user,
+                message_delete_id=message_delete_id,
+            )
+        return redirect(
+            "messages_on_theme",
+            theme_id=self.kwargs["theme_id"],
+            section_id=self.kwargs["section_id"],
+        )
 
     def get_queryset(self):
         object_list = self.model.active.filter(

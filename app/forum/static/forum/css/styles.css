@@ -227,7 +227,7 @@ body {
   transition: 0.2s;
 }
 .my-view-all-container:hover {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .carousel {
@@ -650,6 +650,11 @@ body {
   cursor:pointer;
 }
 
+.message-on-theme {
+  font-weight: 700;
+  font-size: 16px;
+}
+
 .message-on-theme:target {
   box-shadow: inset 0 0 0 2.1px #ff7a00;
 }
@@ -673,11 +678,11 @@ body {
 }
 
 .section-container:hover {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .theme-container {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 16px;
   cursor: pointer;
   transition: 0.2s;
@@ -688,7 +693,7 @@ body {
   box-shadow: inset 0 0 0 2.1px #ff7a00;
 }
 
-.theme-text {
+.text-line-clamp-3 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -moz-box;
@@ -700,11 +705,8 @@ body {
   box-orient: vertical;
 }
 
-.theme-title {
-  font-weight: 700;
-}
-
 .theme-info-container p {
+  font-weight: 500;
   margin-bottom: 0;
   font-size: 14px;
   color: #595959;
@@ -713,4 +715,31 @@ body {
 .page-title {
   font-size: 2rem;
   font-weight: 500;
+}
+
+.message-info-container p {
+  font-weight: 500;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #595959;
+}
+
+.btn-answer-container {
+  justify-content: end;
+}
+
+.my-btn-answer {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.my-btn-answer:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.delete-message-btn {
+  font-size: 14px;
+  border: 0;
+  background: none;
 }

@@ -184,18 +184,5 @@
       </div>
 
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      var currentUrl = $(location).attr('href');
-      var black_heart = "{% static 'forum/images/black_heart.svg' %}";
-      var grad_heart = "{% static 'forum/images/grad_heart.svg' %}";
-      var black_star = "{% static 'forum/images/black_star.svg' %}";
-      var grad_star = "{% static 'forum/images/grad_star.svg' %}";
-      var login_url = "{% url 'users:login' %}?next={{request.path}}";
-    </script>
-    <script type="text/javascript" src="{% static 'forum/js/add_del_favorites.js' %}"></script>
-    <script type="text/javascript" src="{% static 'forum/js/add_update_stars.js' %}"></script>
-    <script type="text/javascript" src="{% static 'forum/js/delete_stars.js' %}"></script>
-    <script type="text/javascript" src="{% static 'forum/js/bike_functions.js' %}"></script>
   </body>
 </html>

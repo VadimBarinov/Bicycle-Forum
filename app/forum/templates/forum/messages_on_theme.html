@@ -8,8 +8,6 @@
 
     {% include 'forum/includes/query_filter.html' %}
 
-    <h1>{{ title }}</h1>
-
     <div class="d-flex row">
         <div class="col-8">
             <a href="{% url 'create_message' section_id=section_id theme_id=theme_id %}">
@@ -24,6 +22,12 @@
         </div>
     </div>
 
+    <div class="my-border border-color-orange my-3">
+        <div class="page-title p-3">
+            {{ title }}
+        </div>
+    </div>
+
     {% if not messages %}
       <div class="empty-bikes">
         <p>Ничего не найдено</p>
@@ -31,28 +35,7 @@
     {% endif %}
 
     {% for message in messages %}
-        <div class="message-on-theme border my-border p-3 my-3" id="message_{{ message.pk }}">
-            <p class="message-content">{{ message.content }}</p>
-            <p>Автор: {{ message.author }}</p>
-
-            {% if message.parent_id %}
-            <form method="get">
-                <input
-                    type="hidden"
-                    name="parent_id"
-                    value="{{ message.parent_id }}"
-                />
-                <p><input type="submit" value="Ответил на: {{ message.parent_id }}" /></p>
-            </form>
-            {% endif %}
-
-            <p>{{ message.created_at|date:"d.m.Y, H:i" }}</p>
-            <a href="{% url 'create_answer' section_id=section_id theme_id=theme_id message_id=message.pk %}">
-                <button class="btn btn-outline-primary">
-                    Ответить
-                </button>
-            </a>
-        </div>
+        {% include 'forum/includes/message_item.html' %}
     {% endfor %}
 
     {% include 'forum/includes/pagination.html' %}

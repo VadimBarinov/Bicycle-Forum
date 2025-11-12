@@ -85,6 +85,7 @@ class Message(models.Model):
         on_delete=models.PROTECT,
         related_name="all_parents",
         null=True,
+        blank=True,
     )
     is_active = models.BooleanField(
         default=True,
@@ -108,6 +109,7 @@ class Message(models.Model):
 
     def deactivate_message(self):
         self.is_active = False
+        self.save(update_fields=["is_active"])
         Theme.objects.filter(pk=self.theme.pk).update(
             messages_count=Message.objects.filter(
                 is_active=True,

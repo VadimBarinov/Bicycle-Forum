@@ -8,7 +8,7 @@ from forum.models import (
 
 
 @admin.register(Section)
-class BikeModificationAdmin(admin.ModelAdmin):
+class SectionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "title",
@@ -17,7 +17,7 @@ class BikeModificationAdmin(admin.ModelAdmin):
 
 
 @admin.register(Theme)
-class BikeModificationAdmin(admin.ModelAdmin):
+class ThemeAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "title",
@@ -29,7 +29,7 @@ class BikeModificationAdmin(admin.ModelAdmin):
 
 
 @admin.register(Message)
-class BikeModificationAdmin(admin.ModelAdmin):
+class MessageAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "content",
@@ -37,4 +37,5 @@ class BikeModificationAdmin(admin.ModelAdmin):
         "author",
         "theme",
         "created_at",
+        "is_active",
     )

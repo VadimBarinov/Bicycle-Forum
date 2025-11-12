@@ -1,0 +1,83 @@
+{%load static%}
+{%load forum_tags%}
+
+
+<div class="modal fade" id="deleteMessageModal{{ message.pk }}" tabindex="-1" aria-labelledby="deleteMessageModalLabel{{ message.pk }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteMessageModalLabel{{ message.pk }}">Удалить сообщение</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        Вы точно хотите удалить это сообщение?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Отмена</button>
+          <form name="formDeleteMessage" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="message_delete_id" value="{{ message.pk }}"/>
+              <button type="submit" class="btn btn-primary">Удалить</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="message-on-theme p-3 my-3" id="message{{ message.pk }}">
+    <div class="d-flex btn-answer-container">
+        <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=section_id theme_id=theme_id message_id=message.pk %}">
+            <img width="25" src="{% static 'forum/images/answer.png' %}">
+        </a>
+    </div>
+    <div class="d-flex row">
+        <div class="col-2 col-md-1 ps-0">
+            <div class="d-flex row">
+                {% if message.author.photo|find_image %}
+                  <img width="100%" src="{{ message.author.photo.url }}">
+                {% else %}
+                  <img width="100%" src="{{ default_profile }}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-10 col-md-11 border my-border p-3">
+            <div>
+                <p class="text-line-clamp-3 text-orange">
+                    {{ message.author.username }}
+                </p>
+            </div>
+            <div>
+                <p class="message-content">
+                    {{ message.content }}
+                </p>
+            </div>
+
+            {% if user == message.author %}
+            <div class="d-flex">
+                <button class="p-0 ms-auto my-btn-answer text-orange delete-message-btn" type="button"
+                        data-bs-toggle="modal" data-bs-target="#deleteMessageModal{{ message.pk }}">
+                    Удалить
+                </button>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="message-info-container">
+        <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
+    </div>
+
+
+
+    {% if message.parent_id %}
+    <form method="get">
+        <input
+            type="hidden"
+            name="parent_id"
+            value="{{ message.parent_id }}"
+        />
+        <p><input type="submit" value="Ответил на: {{ message.parent_id }}" /></p>
+    </form>
+    {% endif %}
+</div>

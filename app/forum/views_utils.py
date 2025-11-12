@@ -6,6 +6,8 @@ from django.db.models import (
 )
 from django.db.models.functions import Concat
 
+from forum.models import Message
+
 
 def get_theme_list_with_query(
         object_list,
@@ -55,3 +57,11 @@ def sort_in_ascending_or_descending_order(
     else:
         object_list = object_list.order_by("pk")
     return object_list
+
+
+def delete_message(user, message_delete_id):
+    if user.is_authenticated:
+        found_message = Message.active.get(
+            Q(author__pk=user.pk) & Q(pk=message_delete_id)
+        )
+        found_message.deactivate_message()
