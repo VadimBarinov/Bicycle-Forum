@@ -8,8 +8,6 @@
 
     {% include 'forum/includes/query_filter.html' %}
 
-    <h1>{{ title }}</h1>
-
     <div class="d-flex row">
         <div class="col-8">
             <a href="{% url 'create_theme_with_section' section_id=section_id %}">
@@ -21,6 +19,12 @@
 
         <div class="col-4">
             {% include 'forum/includes/ascending_or_descending_filter.html' %}
+        </div>
+    </div>
+
+    <div class="my-border border-color-orange my-3">
+        <div class="page-title p-3">
+            {{ title }}
         </div>
     </div>
 
