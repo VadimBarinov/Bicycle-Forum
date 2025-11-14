@@ -42,16 +42,27 @@
             </div>
         </div>
         <div class="col-10 col-md-11 border my-border p-3">
-            <div>
-                <p class="text-line-clamp-3 text-orange">
-                    {{ message.author.username }}
-                </p>
+            <p class="text-orange text-line-clamp-3 long-text">
+                {{ message.author.username }}
+            </p>
+            {% if message.parent.pk %}
+            <div class="border-start-color-orange ps-3 mb-3">
+                <a class="onclick-card my-btn-answer"
+                   href="{% url 'messages_on_theme' section_id=section_id theme_id=theme_id %}?parent_id={{ message.parent.pk }}">
+                    <div>
+                        <p class="text-orange text-line-clamp-3 long-text">
+                            {{ message.parent.author.username }}
+                        </p>
+                        <p class="message-content text-line-clamp-3 long-text">
+                            {{ message.parent.content|linebreaksbr }}
+                        </p>
+                    </div>
+                </a>
             </div>
-            <div>
-                <p class="message-content">
-                    {{ message.content }}
-                </p>
-            </div>
+            {% endif %}
+            <p class="message-content long-text">
+                {{ message.content|linebreaksbr }}
+            </p>
 
             {% if user == message.author %}
             <div class="d-flex">
@@ -67,17 +78,4 @@
     <div class="message-info-container">
         <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
     </div>
-
-
-
-    {% if message.parent_id %}
-    <form method="get">
-        <input
-            type="hidden"
-            name="parent_id"
-            value="{{ message.parent_id }}"
-        />
-        <p><input type="submit" value="Ответил на: {{ message.parent_id }}" /></p>
-    </form>
-    {% endif %}
 </div>

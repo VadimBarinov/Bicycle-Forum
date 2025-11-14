@@ -8,7 +8,7 @@
                 <img src="{{ default_gradient_bike }}" width="70%"/>
             </div>
             <div class="col-12 col-md-6">
-                <p class="text-line-clamp-3">{{ theme.title }}</p>
+                <p class="text-line-clamp-3 long-text">{{ theme.title|linebreaksbr }}</p>
             </div>
             <div class="col-12 col-md-4">
                 <div class="theme-info-container d-flex">
@@ -20,7 +20,7 @@
                     {% else %}
                       <img width="20" src="{{ default_profile }}">
                     {% endif %}
-                    <p class="text-line-clamp-3 text-orange">
+                    <p class="text-orange text-line-clamp-3 long-text">
                         &nbsp{{ theme.author.username }}
                     </p>
                 </div>
@@ -28,8 +28,8 @@
                     <p>
                         Раздел:&nbsp
                     </p>
-                    <p class="text-line-clamp-3 text-orange">
-                        {{ theme.section.title }}
+                    <p class="text-orange text-line-clamp-3 long-text">
+                        {{ theme.section.title|linebreaksbr }}
                     </p>
                 </div>
             </div>
