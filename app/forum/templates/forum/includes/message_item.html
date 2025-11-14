@@ -41,19 +41,32 @@
                 {{ message.author.username }}
             </p>
             {% if message.parent.pk %}
-            <div class="border-start-color-orange ps-3 mb-3">
-                <a class="onclick-card my-btn-answer"
-                   href="{% url 'messages_on_theme' section_id=section_id theme_id=theme_id %}?parent_id={{ message.parent.pk }}">
+                {% if message.parent.is_active %}
+                <div class="border-start-color-orange ps-3 mb-3">
+                    <a class="onclick-card my-btn-answer"
+                       href="{% url 'messages_on_theme' section_id=section_id theme_id=theme_id %}?parent_id={{ message.parent.pk }}">
+                        <div>
+                            <p class="text-orange text-line-clamp-3 long-text">
+                                {{ message.parent.author.username }}
+                            </p>
+                            <p class="text-line-clamp-3 long-text">
+                                {{ message.parent.content|linebreaksbr }}
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                {% else %}
+                <div class="border-start-color-orange ps-3 mb-3">
                     <div>
                         <p class="text-orange text-line-clamp-3 long-text">
                             {{ message.parent.author.username }}
                         </p>
-                        <p class="text-line-clamp-3 long-text">
-                            {{ message.parent.content|linebreaksbr }}
-                        </p>
+                        <i class="text-line-clamp-3 long-text text-grey ">
+                            Сообщение удалено...
+                        </i>
                     </div>
-                </a>
-            </div>
+                </div>
+                {% endif %}
             {% endif %}
             <p class="long-text">
                 {{ message.content|linebreaksbr }}
