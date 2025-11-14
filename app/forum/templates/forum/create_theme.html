@@ -4,7 +4,11 @@
 {% block content %}
 
 <div class="container">
-    <h1>Новая тема</h1>
+    <div class="my-border border-color-orange title-create-page">
+        <div class="page-title p-3">
+            {{ title }}
+        </div>
+    </div>
 
         <form method="post">
             {% csrf_token %}
@@ -20,7 +24,7 @@
                   {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit">Создать</button>
+            <button class="btn btn-primary" type="submit">Создать тему</button>
         </form>
 </div>
 

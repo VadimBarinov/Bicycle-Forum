@@ -738,7 +738,7 @@ body {
   font-weight: 500;
   margin-bottom: 0;
   font-size: 14px;
-  color: var(--grey-color) !important;
+  color: var(--grey-color);
 }
 
 .page-title {
@@ -775,4 +775,17 @@ body {
   font-size: 14px;
   border: 0;
   background: none;
+}
+
+.title-create-page {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.padding-for-form {
+  padding: .375rem .75rem;
 }

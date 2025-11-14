@@ -4,12 +4,33 @@
 {% block content %}
 
 <div class="container">
-    <h1>{{ title }}</h1>
+    <div class="my-border border-color-orange title-create-page">
+        <div class="page-title p-3">
+            {{ title }}
+        </div>
+    </div>
 
-    <h3>Тема: {{ theme.title }}</h3>
-
+    <div class="title-create-page section-title padding-for-form my-border border d-flex">
+        <div>
+            Тема:&nbsp
+        </div>
+        <div class="text-orange text-line-clamp-3 long-text">
+            {{ theme.title }}
+        </div>
+    </div>
     {% if parent %}
-        <h3>Сообщение: {{ parent.pk }}</h3>
+    <div class="title-create-page my-border padding-for-form">
+        <div class="border-start-color-orange ps-3">
+            <div>
+                <p class="text-orange text-line-clamp-3 long-text">
+                    {{ parent.author.username }}
+                </p>
+                <p class="text-line-clamp-3 long-text mb-0">
+                    {{ parent.content|linebreaksbr }}
+                </p>
+            </div>
+        </div>
+    </div>
     {% endif %}
 
         <form method="post">
@@ -26,7 +47,7 @@
                   {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">Создать тему</button>
         </form>
 </div>
 
