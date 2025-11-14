@@ -25,12 +25,7 @@
 </div>
 
 
-<div class="message-on-theme p-3 my-3" id="message{{ message.pk }}">
-    <div class="d-flex btn-answer-container">
-        <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=section_id theme_id=theme_id message_id=message.pk %}">
-            <img width="25" src="{% static 'forum/images/answer.png' %}">
-        </a>
-    </div>
+<div class="my-border message-on-theme p-3 my-3" id="message{{ message.pk }}">
     <div class="d-flex row">
         <div class="col-2 col-md-1 ps-0">
             <div class="d-flex row">
@@ -53,14 +48,14 @@
                         <p class="text-orange text-line-clamp-3 long-text">
                             {{ message.parent.author.username }}
                         </p>
-                        <p class="message-content text-line-clamp-3 long-text">
+                        <p class="text-line-clamp-3 long-text">
                             {{ message.parent.content|linebreaksbr }}
                         </p>
                     </div>
                 </a>
             </div>
             {% endif %}
-            <p class="message-content long-text">
+            <p class="long-text">
                 {{ message.content|linebreaksbr }}
             </p>
 
@@ -75,7 +70,13 @@
 
         </div>
     </div>
-    <div class="message-info-container">
-        <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
+    <div class="d-flex btn-answer-container message-info-container">
+        <div class="message-info-container">
+            <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
+        </div>
+        <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=section_id theme_id=theme_id message_id=message.pk %}">
+            <img width="25" src="{% static 'forum/images/answer.png' %}">
+        </a>
     </div>
+
 </div>
