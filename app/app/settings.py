@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_cleanup.apps.CleanupConfig',
     'forum',
     'users',
 ]
@@ -115,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Ulyanovsk'
 
 USE_I18N = True
 
@@ -160,3 +161,5 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'users.User'
 
 DEFAULT_PROFILE_IMAGE = MEDIA_URL + 'users/profile_icon.svg'
+DEFAULT_BIKE_IMAGE = MEDIA_URL + 'bikes/default.svg'
+DEFAULT_BIKE_GRADIENT_IMAGE = MEDIA_URL + 'bikes/default_gradient.svg'

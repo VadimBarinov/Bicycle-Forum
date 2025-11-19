@@ -4,25 +4,24 @@
 
 {% block content %}
 <div class="container">
-    
-    <div class="row d-flex pt-3 pb-5">
-        <div class="col-0 col-lg-6"></div>
-        <div class="bike-title col-12 col-lg-6 ps-3 pe-3 pb-3 border-bottom">
-          <h1>Профиль</h1>
-        </div>
-        <!-- ----------------------------- -->
-        <!-- нужно добавить смену аватарки -->
-        <!-- ----------------------------- -->
-        <div class="bike-img col-12 col-lg-6 pt-3 pe-3">
-            {% if user.photo|find_image %}
-                  <img class="d-block" src="{{ user.photo.url }}">
-            {% else %}
-                  <img class="d-block" src="{{ default_profile }}">
-            {% endif %}
-        </div>
-        <div class="col-12 col-lg-6 p-3 border-bottom">
-            <form class="" method="post">
-                {% csrf_token %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row d-flex pt-3 pb-5">
+            <div class="col-0 col-lg-6"></div>
+            <div class="bike-title col-12 col-lg-6 ps-3 pe-3 pb-3 border-bottom">
+              <h1>Профиль</h1>
+            </div>
+            <div class="col-12 col-lg-6 pt-3 pe-3">
+                <div class="d-flex aspect-ratio-1 profile-img-container">
+                    {% if user.photo|find_image %}
+                        <img class="d-block user-image" width="80%" height="80%" src="{{ user.photo.url }}">
+                    {% else %}
+                        <img class="d-block user-image" width="80%" height="80%" src="{{ default_profile }}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 p-3 border-bottom">
                 <div class="form-error">
                     {% if form.non_field_errors %}
                     <ul class="errorlist nonfield">
@@ -32,9 +31,9 @@
                     </ul>
                     {% endif %}
                   </div>
-                
+
                 {% for f in form %}
-                    <p><label class="form-label" for="{{f.id_for_label}}">{{ f.label }}</label>{{ f }}</p>
+                    <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
                     <div class="form-error">
                         {% if f.errors %}
                         <ul class="errorlist nonfield">
@@ -45,31 +44,36 @@
                         {% endif %}
                       </div>
                 {% endfor %}
-            
+
                 <div class="d-flex justify-content-center mb-3">
                     <button class="btn btn-primary" type="submit">Сохранить</button>
                 </div>
-            </form>
-        </div>
+            </div>
 
-        {% if user.is_superuser %}
-        <div class="col-12 col-lg-6 p-3">
-            <div class="d-flex justify-content-center my-3">
-                <a href="{% url 'admin:index' %}">
-                    <button class="btn btn-primary">Админ панель</button>
-                </a>
+            <div class="col-12 col-lg-6 p-3">
+                {% if user.photo|find_image %}
+                <div class="d-flex justify-content-center my-3">
+                    <button name="delete_photo" type="submit" class="btn btn-outline-primary">Удалить фото</button>
+                </div>
+                {% endif %}
+                {% if user.is_superuser %}
+                <div class="d-flex justify-content-center my-3">
+                    <a href="{% url 'admin:index' %}">
+                        <button class="btn btn-primary">Админ панель</button>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-12 col-lg-6 p-3">
+
+                <p class="url-profile"><a href="{% url 'users:password_change' %}">Сменить пароль</a></p>
+                <p class="url-profile"><a href="{% url 'my_messages' %}">Мои сообщения</a></p>
+
             </div>
         </div>
-        {% else %}
-        <div class="col-0 col-lg-6 p-lg-3"></div>
-        {% endif %}
 
-        <div class="col-12 col-lg-6 p-3">
-
-            <p class="url-profile"><a href="{% url 'users:password_change' %}">Сменить пароль</a></p>
-
-        </div>
-    </div>
+    </form>
 
 </div>
 {% endblock content %}s

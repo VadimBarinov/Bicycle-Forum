@@ -1,6 +1,4 @@
-import random
 from django import template
-
 
 # регистрация новых тегов
 register = template.Library()

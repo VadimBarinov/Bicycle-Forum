@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="my-border border-color-orange title-create-page">
+        <div class="page-title p-3">
+            {{ title }}
+        </div>
+    </div>
+
+    <div class="title-create-page section-title padding-for-form my-border border d-flex">
+        <div>
+            Тема:&nbsp
+        </div>
+        <div class="text-orange text-line-clamp-3 long-text">
+            {{ theme.title }}
+        </div>
+    </div>
+    {% if parent %}
+    <div class="title-create-page my-border padding-for-form">
+        <div class="border-start-color-orange ps-3">
+            <div>
+                <p class="text-orange text-line-clamp-3 long-text">
+                    {{ parent.author.username }}
+                </p>
+                <p class="text-line-clamp-3 long-text mb-0">
+                    {{ parent.content|linebreaksbr }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            {% for f in form %}
+                {{ f }}
+                <div class="form-error">
+                  {% if f.errors %}
+                  <ul class="errorlist nonfield">
+                    {% for error in f.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Создать сообщение</button>
+        </form>
+</div>
+
+{% endblock %}

@@ -16,6 +16,12 @@
   src: url("fonts/MontserratAlternates-Bold.ttf");
 }
 
+:root {
+  --orange-color: #ff7a00;
+  --grey-color: #595959;
+  --main-gradient: linear-gradient(120deg, #ff0000 0%, #ffc700 100%);
+}
+
 body {
   font-family: "Montserrat Alternates" !important;
 }
@@ -60,9 +66,14 @@ body {
   font-size: 16px;
 }
 
+.user-image {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .btn-primary {
   color: white !important;
-  background: linear-gradient(120deg, #ff0000 0%, #ffc700 100%) !important;
+  background: var(--main-gradient) !important;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -74,7 +85,7 @@ body {
 }
 
 .btn-primary:active {
-  background: linear-gradient(120deg, #ff0000 0%, #ffc700 100%) !important;
+  background: var(--main-gradient) !important;
   color: white !important;
   box-shadow: none !important;
 }
@@ -88,7 +99,7 @@ body {
 }
 
 .btn-outline-primary:hover {
-  background: linear-gradient(120deg, #ff0000 0%, #ffc700 100%) !important;
+  background: var(--main-gradient) !important;
   color: white !important;
   box-shadow: none !important;
 }
@@ -101,7 +112,7 @@ body {
 
 .item-footer-orange {
   text-align: right !important;
-  color: #ff7a00 !important;
+  color: var(--orange-color) !important;
   cursor: pointer;
   transition: 0.1s;
   font-weight: 500 !important;
@@ -109,17 +120,17 @@ body {
 }
 
 .item-footer-orange:hover {
-  color: #595959 !important;
+  color: var(--grey-color) !important;
 }
 
 .item-footer-orange:active {
   text-align: right !important;
-  color: #ff7a00 !important;
+  color: var(--orange-color) !important;
 }
 
 .item-footer-grey {
   text-align: right !important;
-  color: #595959 !important;
+  color: var(--grey-color) !important;
   cursor: pointer;
   transition: 0.1s;
   font-weight: 500 !important;
@@ -127,12 +138,12 @@ body {
 }
 
 .item-footer-grey:hover {
-  color: #ff7a00 !important;
+  color: var(--orange-color) !important;
 }
 
 .item-footer-grey:active {
   text-align: right !important;
-  color: #595959 !important;
+  color: var(--grey-color) !important;
 }
 
 .footer-menu {
@@ -142,14 +153,14 @@ body {
 
 .text-footer-grey {
   text-align: left !important;
-  color: #595959 !important;
+  color: var(--grey-color) !important;
   font-weight: 500 !important;
   font-size: 14px !important;
 }
 
 .text-footer-orange {
   text-align: left !important;
-  color: #ff7a00 !important;
+  color: var(--orange-color) !important;
   font-weight: 500 !important;
   font-size: 14px !important;
 }
@@ -227,7 +238,7 @@ body {
   transition: 0.2s;
 }
 .my-view-all-container:hover {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .carousel {
@@ -236,7 +247,7 @@ body {
 }
 
 .carousel-indicators .active {
-  background: linear-gradient(120deg, #ff0000 0%, #ffc700 100%);
+  background: var(--main-gradient) !important;
 }
 
 .small-indicator {
@@ -304,13 +315,11 @@ body {
 
 .table-carousel td {
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
-  border-bottom: 0.06rem solid #595959;
+  border-bottom: 0.06rem solid var(--grey-color) !important;
 }
 
 .my-catalog-filter {
   width: 100%;
-  padding-left: 2.2rem !important;
-  padding-right: 2.2rem !important;
 }
 
 .my-search-box {
@@ -368,15 +377,15 @@ body {
 
 .table-bike td {
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
-  border-bottom: 0.06rem solid #595959;
+  border-bottom: 0.06rem solid var(--grey-color) !important;
 }
 
 .text-grey {
-  color: #595959 !important;
+  color: var(--grey-color) !important;
 }
 
 .text-orange {
-  color: #ff7a00 !important;
+  color: var(--orange-color) !important;
 }
 
 .bike-img {
@@ -540,7 +549,7 @@ body {
 }
 
 .empty-favorites p {
-  color: #595959;
+  color: var(--grey-color) !important;
   padding-bottom: 0.5rem;
   text-align: center;
   font-size: 16px;
@@ -560,7 +569,7 @@ body {
 }
 
 .empty-bikes p {
-  color: #595959;
+  color: var(--grey-color) !important;
   padding-bottom: 0.5rem;
   text-align: center;
   font-size: 16px;
@@ -641,4 +650,147 @@ body {
   padding-bottom: 5rem;
   font-weight: 500 !important;
   font-size: 16px !important;
+}
+
+.section-filter-container {
+  justify-content: end;
+}
+
+.transformed-checkbox {
+  transform:scale(1.3);
+  cursor:pointer;
+}
+
+.message-on-theme {
+  font-weight: 700;
+  font-size: 16px;
+  position: relative;
+  scroll-margin-top: 1rem;
+}
+
+.message-on-theme:target::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--orange-color);
+  border-radius: 0.5rem;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.hide-before::before {
+  opacity: 0 !important;
+  transition: 3s;
+}
+
+.border-color-orange {
+  box-shadow: inset 0 0 0 2.1px var(--orange-color) !important;
+}
+
+.border-start-color-orange {
+  border-inline-start: solid;
+  border-inline-start-color: var(--orange-color) !important;
+  border-inline-start-width: 3px;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.section-container {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.section-container:hover {
+  opacity: 0.7;
+}
+
+.theme-container {
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.theme-container:hover {
+  color: black;
+  box-shadow: inset 0 0 0 2.1px var(--orange-color) !important;
+}
+
+.long-text {
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.text-line-clamp-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  box-orient: vertical;
+}
+
+.theme-info-container p {
+  font-weight: 500;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: var(--grey-color);
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.message-info-container {
+  align-items: center;
+}
+
+.message-info-container p {
+  font-weight: 500;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: var(--grey-color) !important;
+}
+
+.btn-answer-container {
+  justify-content: end;
+}
+
+.my-btn-answer {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.my-btn-answer:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.delete-message-btn {
+  font-size: 14px;
+  border: 0;
+  background: none;
+}
+
+.title-create-page {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.padding-for-form {
+  padding: .375rem .75rem;
 }

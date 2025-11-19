@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPassworChangeForm
+from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
 from django.views.generic import CreateView, UpdateView
 
 
@@ -29,6 +30,13 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
     template_name = 'users/profile.html'
     extra_context = {'title': 'Профиль пользователя'}
 
+    def post(self, *args, **kwargs):
+        if "delete_photo" in self.request.POST:
+            current_user = self.request.user
+            current_user.photo = None
+            current_user.save()
+        return super().post( *args, **kwargs)
+
     def get_success_url(self):
         return reverse_lazy('users:profile')
 
@@ -37,6 +45,6 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 
 
 class UserPasswordChange(PasswordChangeView):
-    form_class = UserPassworChangeForm
+    form_class = UserPasswordChangeForm
     success_url = reverse_lazy('users:password_change_done')
     template_name = 'users/password_change_form.html'

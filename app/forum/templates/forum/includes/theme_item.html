@@ -1,0 +1,46 @@
+{%load static%}
+{%load forum_tags%}
+
+<a class="onclick-card" href="{{ theme.get_absolute_url }}">
+    <div class="theme-container my-border border p-3 my-3">
+        <div class="d-flex row">
+            <div class="d-none d-md-flex col-md-2">
+                <img src="{{ default_gradient_bike }}" width="70%"/>
+            </div>
+            <div class="col-12 col-md-6">
+                <p class="text-line-clamp-3 long-text">{{ theme.title|linebreaksbr }}</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="theme-info-container d-flex align-items-center">
+                    <p>
+                        Автор:&nbsp
+                    </p>
+                    <div class="d-flex aspect-ratio-1">
+                        {% if theme.author.photo|find_image %}
+                          <img class="user-image" width="30" height="30" src="{{ theme.author.photo.url }}">
+                        {% else %}
+                          <img class="user-image" width="20" height="20" src="{{ default_profile }}">
+                        {% endif %}
+                    </div>
+                    <p class="text-orange text-line-clamp-3 long-text">
+                        &nbsp{{ theme.author.username }}
+                    </p>
+                </div>
+                <div class="theme-info-container d-flex">
+                    <p>
+                        Раздел:&nbsp
+                    </p>
+                    <p class="text-orange text-line-clamp-3 long-text">
+                        {{ theme.section.title|linebreaksbr }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="border-top mt-3 pt-3 theme-info-container">
+            <p>Сообщений: {{ theme.messages_count }}</p>
+            {% if theme.messages_count > 0 %}
+            <p>Последнее сообщение: {{ theme.message.last.created_at|date:"d.m.Y, H:i" }}</p>
+            {% endif %}
+        </div>
+    </div>
+</a>

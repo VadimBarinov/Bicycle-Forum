@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+{%load static%}
+{%load forum_tags%}
+
+{%block content%}
+
+<div class="container">
+
+    {% include 'forum/includes/query_filter.html' %}
+
+    <div class="d-flex row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            {% include 'forum/includes/ascending_or_descending_filter.html' %}
+        </div>
+    </div>
+
+    <div class="my-border border-color-orange my-3">
+        <div class="page-title p-3">
+            {{ title }}
+        </div>
+    </div>
+
+    {% if not messages %}
+      <div class="empty-bikes">
+        <p>Ничего не найдено</p>
+      </div>
+    {% endif %}
+
+    {% for message in messages %}
+        {% include 'forum/includes/message_item.html' %}
+    {% endfor %}
+
+    {% include 'forum/includes/pagination.html' %}
+
+</div>
+
+{%endblock%}

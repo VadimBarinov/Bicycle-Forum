@@ -1,0 +1,28 @@
+{%load static%}
+<!-- фильтр -->
+
+<div class="dropdown d-flex section-filter-container">
+    <div>
+        <button class="dropdown-toggle border my-border my-btn-search btn-right" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              width="20"
+              src="{% static 'forum/images/filter_icon.png' %}"
+            />
+        </button>
+        <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
+            <form method="get">
+                {% for f in section_filter_form.sections %}
+                    <div class="px-3 py-2">{{ f }}</div>
+                {% endfor %}
+                <div class="px-3 py-2">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                </div>
+            </form>
+            <form method="get">
+                <div class="px-3 py-2">
+                    <button class="btn btn-outline-primary" type="submit" name="reset_sections">Очистить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

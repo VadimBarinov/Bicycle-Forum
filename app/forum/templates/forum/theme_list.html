@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{%load static%}
+{%load forum_tags%}
+
+{%block content%}
+
+<div class="container">
+
+    {% include 'forum/includes/query_filter.html' %}
+
+    <div class="d-flex row">
+        <div class="col-8">
+            <a href="{% url 'create_theme' %}">
+                <button class="btn btn-primary">
+                    Новая тема
+                </button>
+            </a>
+        </div>
+
+        <div class="col-4">
+            {% include 'forum/includes/ascending_or_descending_filter.html' %}
+        </div>
+    </div>
+
+    {% if not themes %}
+      <div class="empty-bikes">
+        <p>Ничего не найдено</p>
+      </div>
+    {% endif %}
+
+    {% for theme in themes %}
+        {% include 'forum/includes/theme_item.html' %}
+    {% endfor %}
+
+</div>
+
+{% include 'forum/includes/pagination.html' %}
+
+{%endblock%}

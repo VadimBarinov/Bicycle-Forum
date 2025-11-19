@@ -94,13 +94,13 @@
             <a class="profile-link" href="{% url 'users:profile' %}">
               <div class="d-flex align-items-center">
                   <p class="username item-navbar">{{ user.username }}</p>
-                  
+
                   {% if user.photo|find_image %}
-                  <img class="item-navbar" width="50" src="{{ user.photo.url }}">
+                  <img class="item-navbar user-image" width="50" height="50" src="{{ user.photo.url }}">
                   {% else %}
-                  <img class="item-navbar" width="50" src="{{ default_profile }}">
+                  <img class="item-navbar user-image" width="50" height="50" src="{{ default_profile }}">
                   {% endif %}
-                    
+
               </div>
             </a>
             <div class="d-flex">
@@ -185,17 +185,6 @@
 
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      var currentUrl = $(location).attr('href');
-      var black_heart = "{% static 'forum/images/black_heart.svg' %}";
-      var grad_heart = "{% static 'forum/images/grad_heart.svg' %}";
-      var black_star = "{% static 'forum/images/black_star.svg' %}";
-      var grad_star = "{% static 'forum/images/grad_star.svg' %}";
-      var login_url = "{% url 'users:login' %}?next={{request.path}}";
-    </script>
-    <script type="text/javascript" src="{% static 'forum/js/add_del_favorites.js' %}"></script>
-    <script type="text/javascript" src="{% static 'forum/js/add_update_stars.js' %}"></script>
-    <script type="text/javascript" src="{% static 'forum/js/delete_stars.js' %}"></script>
-    <script type="text/javascript" src="{% static 'forum/js/bike_functions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'forum/js/message_target.js' %}"></script>
   </body>
 </html>
