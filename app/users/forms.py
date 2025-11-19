@@ -84,12 +84,16 @@ class ProfileUserForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['photo', 'username', 'email', 'first_name', 'last_name']
         labels = {
+            'photo': 'Фото профиля',
             'first_name': 'Имя',
             'last_name': 'Фамилия',
         }
         widgets = {
+            'photo': forms.FileInput(attrs={
+                'class': 'input-image my-border border',
+            }),
             'first_name': forms.TextInput(attrs={
                                    'class': 'form-input my-border form-control',
                                }),
@@ -99,7 +103,7 @@ class ProfileUserForm(forms.ModelForm):
         }
 
 
-class UserPassworChangeForm(PasswordChangeForm):
+class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         label="Старый пароль",
         widget=forms.TextInput(attrs={

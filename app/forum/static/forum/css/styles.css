@@ -66,6 +66,11 @@ body {
   font-size: 16px;
 }
 
+.user-image {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .btn-primary {
   color: white !important;
   background: var(--main-gradient) !important;

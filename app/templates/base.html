@@ -94,13 +94,13 @@
             <a class="profile-link" href="{% url 'users:profile' %}">
               <div class="d-flex align-items-center">
                   <p class="username item-navbar">{{ user.username }}</p>
-                  
+
                   {% if user.photo|find_image %}
-                  <img class="item-navbar" width="50" src="{{ user.photo.url }}">
+                  <img class="item-navbar user-image" width="50" height="50" src="{{ user.photo.url }}">
                   {% else %}
-                  <img class="item-navbar" width="50" src="{{ default_profile }}">
+                  <img class="item-navbar user-image" width="50" height="50" src="{{ default_profile }}">
                   {% endif %}
-                    
+
               </div>
             </a>
             <div class="d-flex">

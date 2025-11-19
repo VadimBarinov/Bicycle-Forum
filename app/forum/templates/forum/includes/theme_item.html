@@ -11,15 +11,17 @@
                 <p class="text-line-clamp-3 long-text">{{ theme.title|linebreaksbr }}</p>
             </div>
             <div class="col-12 col-md-4">
-                <div class="theme-info-container d-flex">
+                <div class="theme-info-container d-flex align-items-center">
                     <p>
                         Автор:&nbsp
                     </p>
-                    {% if theme.author.photo|find_image %}
-                      <img width="20" src="{{ theme.author.photo.url }}">
-                    {% else %}
-                      <img width="20" src="{{ default_profile }}">
-                    {% endif %}
+                    <div class="d-flex aspect-ratio-1">
+                        {% if theme.author.photo|find_image %}
+                          <img class="user-image" width="30" height="30" src="{{ theme.author.photo.url }}">
+                        {% else %}
+                          <img class="user-image" width="20" height="20" src="{{ default_profile }}">
+                        {% endif %}
+                    </div>
                     <p class="text-orange text-line-clamp-3 long-text">
                         &nbsp{{ theme.author.username }}
                     </p>
