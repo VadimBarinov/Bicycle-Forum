@@ -44,7 +44,7 @@
                 {% if message.parent.is_active %}
                 <div class="border-start-color-orange ps-3 mb-3">
                     <a class="onclick-card my-btn-answer"
-                       href="{% url 'messages_on_theme' section_id=section_id theme_id=theme_id %}?parent_id={{ message.parent.pk }}">
+                       href="{% url 'messages_on_theme' section_id=message.theme.section.pk theme_id=message.theme.pk %}?parent_id={{ message.parent.pk }}">
                         <div>
                             <p class="text-orange text-line-clamp-3 long-text">
                                 {{ message.parent.author.username }}
@@ -87,7 +87,7 @@
         <div class="message-info-container">
             <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
         </div>
-        <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=section_id theme_id=theme_id message_id=message.pk %}">
+        <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=message.theme.section.pk theme_id=message.theme.pk message_id=message.pk %}">
             <img width="25" src="{% static 'forum/images/answer.png' %}">
         </a>
     </div>

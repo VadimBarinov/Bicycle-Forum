@@ -332,3 +332,47 @@ class CreateThemeWithSection(LoginRequiredMixin, DataMixin, CreateView):
                 "theme_id": theme_id,
             },
         )
+
+
+class MyMessagesList(DataMixin, ListView):
+    model = Message
+    template_name = "forum/my_messages.html"
+    context_object_name = "messages"
+    paginate_by = 10
+    title_page = "Мои сообщения"
+
+    is_ascending = None
+    query = None
+
+    def post(self, *args, **kwargs):
+        message_delete_id = self.request.POST.get("message_delete_id")
+        if message_delete_id:
+            delete_message(
+                user=self.request.user,
+                message_delete_id=message_delete_id,
+            )
+        return redirect("my_messages")
+
+    def get_queryset(self):
+        object_list = self.model.active.filter(
+            author=self.request.user,
+        )
+        self.query = self.request.GET.get("query")
+        object_list = get_message_list_with_query(
+            object_list,
+            self.query,
+        )
+        self.is_ascending = check_click_ascending(self.request)
+        object_list = sort_in_ascending_or_descending_order(
+            object_list,
+            self.is_ascending,
+        )
+        return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return self.get_mixin_context(
+            context,
+            query=self.query,
+            is_ascending=self.is_ascending,
+        )

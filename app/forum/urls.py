@@ -9,6 +9,7 @@ from .views import (
     CreateMessage,
     CreateTheme,
     CreateThemeWithSection,
+    MyMessagesList,
 )
 urlpatterns = [
     path(
@@ -55,5 +56,10 @@ urlpatterns = [
         "section/<int:section_id>/create_theme/",
         CreateThemeWithSection.as_view(),
         name="create_theme_with_section",
+    ),
+    path(
+        "my_messages/",
+        MyMessagesList.as_view(),
+        name="my_messages",
     ),
 ]
