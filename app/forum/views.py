@@ -67,7 +67,6 @@ class HomePage(DataMixin, ListView):
                     self.selected_sections = [
                         section.pk for section in selected_sections
                     ]
-                    print(self.selected_sections)
                     return selected_sections
         elif "reset_sections" in self.request.GET:
             self.section_filter_form = SectionFilterForm
@@ -179,7 +178,6 @@ class MessagesOnThemeList(DataMixin, ListView):
                     theme__pk=self.kwargs["theme_id"]
                 ).values_list("pk", flat=True)
             )
-            print(all_messages)
             page = (all_messages.index(int(parent_id)) // self.paginate_by) + 1
             url = f"{base_url}?page={page}#message{parent_id}"
             return redirect(url)
