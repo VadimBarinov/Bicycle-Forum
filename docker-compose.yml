@@ -1,6 +1,37 @@
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: web_forum
+    restart: always
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=root
+      - DJANGO_SUPERUSER_EMAIL=root@mail.com
+      - DJANGO_SUPERUSER_PASSWORD=root
+    command: python3 manage.py migrate & python3 manage.py createsuperuser & gunicorn --bind 0.0.0.0:8000 app.wsgi:application
+    depends_on:
+      - postgres
+    networks:
+      - backend
+      - server
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx_forum
+    restart: always
+    ports:
+      - '80:80'
+    depends_on:
+      - web
+      - postgres
+    networks:
+      - server
+
   postgres:
-    image: postgres:latest
+    image: postgres:18
     container_name: postgres_forum
     environment:
       POSTGRES_USER: admin
@@ -8,7 +39,7 @@ services:
       POSTGRES_DB: db_forum
       PGDATA: /var/lib/postgresql/18/data/pgdata_forum
     ports:
-      - 5432:5432
+      - '5432:5432'
     volumes:
       - pgdata_forum:/var/lib/postgresql/18/data/pgdata_forum
     deploy:
@@ -22,6 +53,14 @@ services:
     restart: always
     tty: true
     stdin_open: true
+    networks:
+      - backend
+
+
+networks:
+  backend:
+  server:
+
 
 volumes:
   pgdata_forum:

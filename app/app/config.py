@@ -18,7 +18,7 @@ class DatabaseConfig(BaseModel):
     name: str
     user:str
     password: str
-    host:str
+    host: str
     port: int
 
 
