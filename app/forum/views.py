@@ -92,6 +92,7 @@ class ThemeList(DataMixin, ListView):
 
     is_ascending = None
     query = None
+    all_themes_count = 0
 
     def get_queryset(self):
         object_list = self.model.objects.all()
@@ -105,6 +106,7 @@ class ThemeList(DataMixin, ListView):
             object_list,
             self.is_ascending,
         )
+        self.all_themes_count = len(object_list)
         return object_list
 
     def get_context_data(self, **kwargs):
@@ -113,6 +115,7 @@ class ThemeList(DataMixin, ListView):
             context,
             query=self.query,
             is_ascending=self.is_ascending,
+            all_themes_count = self.all_themes_count,
         )
 
 
@@ -124,6 +127,7 @@ class ThemesOnSectionList(DataMixin, ListView):
 
     is_ascending = None
     query = None
+    all_themes_count = 0
 
     def get_queryset(self):
         object_list = self.model.objects.filter(
@@ -139,6 +143,7 @@ class ThemesOnSectionList(DataMixin, ListView):
             object_list,
             self.is_ascending,
         )
+        self.all_themes_count = len(object_list)
         return object_list
 
     def get_context_data(self, **kwargs):
@@ -149,6 +154,7 @@ class ThemesOnSectionList(DataMixin, ListView):
             context,
             query=self.query,
             is_ascending=self.is_ascending,
+            all_themes_count = self.all_themes_count,
             section_id=section_id,
             title=title,
         )
@@ -162,6 +168,7 @@ class MessagesOnThemeList(DataMixin, ListView):
 
     is_ascending = None
     query = None
+    all_messages_count = 0
 
     def get(self, *args, **kwargs):
         parent_id = self.request.GET.get("parent_id")
@@ -210,6 +217,7 @@ class MessagesOnThemeList(DataMixin, ListView):
             object_list,
             self.is_ascending,
         )
+        self.all_messages_count = len(object_list)
         return object_list
 
     def get_context_data(self, **kwargs):
@@ -222,6 +230,7 @@ class MessagesOnThemeList(DataMixin, ListView):
             context,
             query=self.query,
             is_ascending=self.is_ascending,
+            all_messages_count=self.all_messages_count,
             theme_id=theme_id,
             section_id=section_id,
             title=title,
@@ -341,6 +350,7 @@ class MyMessagesList(DataMixin, ListView):
 
     is_ascending = None
     query = None
+    all_messages_count = 0
 
     def post(self, *args, **kwargs):
         message_delete_id = self.request.POST.get("message_delete_id")
@@ -365,6 +375,7 @@ class MyMessagesList(DataMixin, ListView):
             object_list,
             self.is_ascending,
         )
+        self.all_messages_count = len(object_list)
         return object_list
 
     def get_context_data(self, **kwargs):
@@ -373,4 +384,5 @@ class MyMessagesList(DataMixin, ListView):
             context,
             query=self.query,
             is_ascending=self.is_ascending,
+            all_messages_count=self.all_messages_count,
         )
