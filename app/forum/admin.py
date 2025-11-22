@@ -37,6 +37,7 @@ class ThemeAdmin(admin.ModelAdmin):
     fields = [
         "title",
         "section",
+        "messages_count"
     ]
     def save_model(self, request, obj, form, change):
         if getattr(obj, "author", None) is None:

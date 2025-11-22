@@ -1,3 +1,0 @@
-INSERT INTO public.users_user ("password",last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined,photo) VALUES
-	 ('pbkdf2_sha256$1000000$VNbXq8acda0I9sWPPB7NRA$bP//Z4Acm64HLTK+GxyCewVtXKdpbQsPl1cejAYgPoE=','2025-11-21 22:33:17.026887+04',false,'Vadim','Вадим','Баринов','vadimbarinov87@gmail.com',false,true,'2025-11-21 22:27:12.294132+04','users/2025/11/21/me.jpg'),
-	 ('pbkdf2_sha256$1000000$t6d13HD8fTdgAv70dUIcaO$PIOGa8hAfPYELFlMLMgSUcVOH6wLXiXeqGnWpOlU+Wo=','2025-11-21 22:33:37.74651+04',false,'user1','','','user1@mail.com',false,true,'2025-11-12 19:58:15.738904+04','users/2025/11/19/BlueCity.png');

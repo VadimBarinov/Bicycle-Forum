@@ -30,6 +30,13 @@ class SMTPConfig(BaseModel):
     email_use_ssl: bool
 
 
+class SuperuserConfig(BaseModel):
+    username: str
+    password: str
+    email: str
+    photo: str
+
+
 class SettingsApp(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(BASE_URL / ".env.template", BASE_URL / ".env"),
@@ -39,6 +46,7 @@ class SettingsApp(BaseSettings):
     app: AppConfig
     db: DatabaseConfig
     smtp: SMTPConfig
+    superuser: SuperuserConfig
 
 
 settings_app = SettingsApp()

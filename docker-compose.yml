@@ -1,13 +1,7 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.app
+    build: .
     container_name: web_forum
-    environment:
-      - DJANGO_SUPERUSER_USERNAME=root
-      - DJANGO_SUPERUSER_EMAIL=root@mail.com
-      - DJANGO_SUPERUSER_PASSWORD=root
     restart: always
     ports:
       - '8000:8000'
