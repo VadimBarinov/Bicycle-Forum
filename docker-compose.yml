@@ -9,25 +9,14 @@ services:
       - DJANGO_SUPERUSER_EMAIL=root@mail.com
       - DJANGO_SUPERUSER_PASSWORD=root
     restart: always
+    ports:
+      - '8000:8000'
+    volumes:
+      - web_data:/web
     depends_on:
       - postgres
     networks:
       - backend
-      - server
-
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
-    container_name: nginx_forum
-    restart: always
-    ports:
-      - '80:80'
-    depends_on:
-      - web
-      - postgres
-    networks:
-      - server
 
   postgres:
     image: postgres:18
@@ -58,8 +47,8 @@ services:
 
 networks:
   backend:
-  server:
 
 
 volumes:
   pgdata_forum:
+  web_data:
