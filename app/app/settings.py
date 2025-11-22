@@ -163,3 +163,8 @@ AUTH_USER_MODEL = 'users.User'
 DEFAULT_PROFILE_IMAGE = MEDIA_URL + 'users/profile_icon.svg'
 DEFAULT_BIKE_IMAGE = MEDIA_URL + 'bikes/default.svg'
 DEFAULT_BIKE_GRADIENT_IMAGE = MEDIA_URL + 'bikes/default_gradient.svg'
+
+SUPERUSER_USERNAME = settings_app.superuser.username
+SUPERUSER_PASSWORD = settings_app.superuser.password
+SUPERUSER_EMAIL = settings_app.superuser.email
+SUPERUSER_PHOTO = settings_app.superuser.photo

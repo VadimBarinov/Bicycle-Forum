@@ -1,6 +1,19 @@
 services:
+  web:
+    build: .
+    container_name: web_forum
+    restart: always
+    ports:
+      - '8000:8000'
+    volumes:
+      - web_data:/web
+    depends_on:
+      - postgres
+    networks:
+      - backend
+
   postgres:
-    image: postgres:latest
+    image: postgres:18
     container_name: postgres_forum
     environment:
       POSTGRES_USER: admin
@@ -8,7 +21,7 @@ services:
       POSTGRES_DB: db_forum
       PGDATA: /var/lib/postgresql/18/data/pgdata_forum
     ports:
-      - 5432:5432
+      - '5432:5432'
     volumes:
       - pgdata_forum:/var/lib/postgresql/18/data/pgdata_forum
     deploy:
@@ -22,6 +35,14 @@ services:
     restart: always
     tty: true
     stdin_open: true
+    networks:
+      - backend
+
+
+networks:
+  backend:
+
 
 volumes:
   pgdata_forum:
+  web_data:
