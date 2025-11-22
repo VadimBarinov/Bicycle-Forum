@@ -4,6 +4,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
 
+import logging
 from django.contrib.auth import get_user_model
 from forum.models import (
     Section,
@@ -26,6 +27,7 @@ def create_super_admin():
             email=SUPERUSER_EMAIL,
             photo=SUPERUSER_PHOTO,
         )
+        logging.info("Superuser has been created.")
 
 
 def create_test_users():
@@ -41,6 +43,7 @@ def create_test_users():
         email="user2@mail.com",
         photo="users/2025/11/22/BlueCity.png",
     )
+    logging.info("Test users has been created.")
 
 
 def create_test_sections():
@@ -55,6 +58,7 @@ def create_test_sections():
         Section(title="Стили катания", created_at="2025-10-24 17:56:30.470895+04"),
     ]
     Section.objects.bulk_create(sections_list)
+    logging.info("Test sections has been created.")
 
 
 def create_test_themes():
@@ -84,8 +88,8 @@ def create_test_themes():
             section_id=4,
         ),
     ]
-
     Theme.objects.bulk_create(themes_list)
+    logging.info("Test themes has been created.")
 
 
 def create_test_messages():
@@ -200,8 +204,8 @@ def create_test_messages():
             theme_id=4,
         ),
     ]
-
     Message.objects.bulk_create(messages_list)
+    logging.info("Test messages has been created.")
 
 
 def main():
