@@ -4,6 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile.app
     container_name: web_forum
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=root
+      - DJANGO_SUPERUSER_EMAIL=root@mail.com
+      - DJANGO_SUPERUSER_PASSWORD=root
     restart: always
     depends_on:
       - postgres
