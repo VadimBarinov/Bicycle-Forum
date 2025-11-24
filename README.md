@@ -34,19 +34,30 @@ git clone https://github.com/VadimBarinov/Bicycle-Forum.git
 cd Bicycle-Forum
 ```
 
-4. Запустить приложение
+4. *Для правильной работы _SMTP_ необходимо ввести свои данные в .env(.env/template)
+```
+...
+SMTP__EMAIL_HOST = "host"
+SMTP__EMAIL_PORT = "port"
+SMTP__EMAIL_HOST_USER = "email"
+SMTP__EMAIL_HOST_PASSWORD = "password"
+SMTP__EMAIL_USE_SSL = "1"
+...
+```
+
+5. Запустить приложение
 
 ```bash
 docker-compose up
 ```
 
-5. Выполнить миграции
+6. Выполнить миграции
 
 ```bash
 docker-compose exec web python manage.py migrate
 ```
 
-6. Добавить тестовые данные
+7. Добавить тестовые данные
 
 ```bash
 docker-compose exec web python init_db.py
