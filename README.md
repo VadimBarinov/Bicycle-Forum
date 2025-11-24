@@ -1,12 +1,5 @@
 # Велофорум
 
-- `docker-compose exec web python manage.py migrate`
-- `docker-compose exec web python init_db.py`
-
-
-
-# Велофорум
-
 #### Проект:
 
 1. Форум написан с использованием фреймворка _Django_
