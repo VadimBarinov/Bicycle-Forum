@@ -1,16 +1,34 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.web
     container_name: web_forum
     restart: always
-    ports:
-      - '8000:8000'
+#    ports:
+#      - '8000:8000'
     volumes:
       - web_data:/web
     depends_on:
       - postgres
     networks:
       - backend
+      - server
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - web_data:/web
+    depends_on:
+      - web
+      - postgres
+    networks:
+      - server
 
   postgres:
     image: postgres:18
@@ -41,6 +59,7 @@ services:
 
 networks:
   backend:
+  server:
 
 
 volumes:
