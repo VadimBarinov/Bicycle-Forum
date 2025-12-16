@@ -26,19 +26,21 @@
 
 
 <div class="my-border message-on-theme p-3 my-3" id="message{{ message.pk }}">
-    <a class="onclick-card my-btn-answer"
-       href="{% url 'messages_on_theme' section_id=message.theme.section.pk theme_id=message.theme.pk %}?parent_id={{ message.pk }}">
-        <div class="d-flex row">
-            <div class="col-2 col-md-1 ps-0">
-                <div class="d-flex aspect-ratio-1">
-                    {% if message.author.photo|find_image %}
-                      <img class="user-image" width="100%" height="100%" src="{{ message.author.photo.url }}">
-                    {% else %}
-                      <img class="user-image" width="100%" height="100%" src="{{ default_profile }}">
-                    {% endif %}
-                </div>
+    <div class="d-flex row">
+        <div class="col-2 col-md-1 ps-0">
+            <div class="d-flex aspect-ratio-1">
+                {% if message.author.photo|find_image %}
+                  <img class="user-image" width="100%" height="100%" src="{{ message.author.photo.url }}">
+                {% else %}
+                  <img class="user-image" width="100%" height="100%" src="{{ default_profile }}">
+                {% endif %}
             </div>
-            <div class="col-10 col-md-11 border my-border p-3">
+        </div>
+        <div class="col-10 col-md-11 border my-border p-3">
+
+            <a class="onclick-card my-btn-answer"
+                href="{% url 'messages_on_theme' section_id=message.theme.section.pk theme_id=message.theme.pk %}?parent_id={{ message.pk }}">
+
                 <p class="text-orange text-line-clamp-3 long-text">
                     {{ message.author.username }}
                 </p>
@@ -71,24 +73,25 @@
                     {{ message.content|linebreaksbr }}
                 </p>
 
-                {% if user == message.author %}
-                <div class="d-flex">
-                    <button class="p-0 ms-auto my-btn-answer text-orange delete-message-btn" type="button"
-                            data-bs-toggle="modal" data-bs-target="#deleteMessageModal{{ message.pk }}">
-                        Удалить
-                    </button>
-                </div>
-                {% endif %}
-
-            </div>
-        </div>
-        <div class="d-flex btn-answer-container message-info-container">
-            <div class="message-info-container">
-                <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
-            </div>
-            <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=message.theme.section.pk theme_id=message.theme.pk message_id=message.pk %}">
-                <img width="25" src="{% static 'forum/images/answer.png' %}">
             </a>
+
+            {% if user == message.author %}
+            <div class="d-flex">
+                <button class="p-0 ms-auto my-btn-answer text-orange delete-message-btn" type="button"
+                        data-bs-toggle="modal" data-bs-target="#deleteMessageModal{{ message.pk }}">
+                    Удалить
+                </button>
+            </div>
+            {% endif %}
+
         </div>
-    </a>
+    </div>
+    <div class="d-flex btn-answer-container message-info-container">
+        <div class="message-info-container">
+            <p class="text-end">{{ message.created_at|date:"d.m.Y, H:i" }}</p>
+        </div>
+        <a class="my-btn-answer p-2 pe-0" href="{% url 'create_answer' section_id=message.theme.section.pk theme_id=message.theme.pk message_id=message.pk %}">
+            <img width="25" src="{% static 'forum/images/answer.png' %}">
+        </a>
+    </div>
 </div>
