@@ -1,5 +1,3 @@
-from urllib.parse import urlencode
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import (
     redirect,
@@ -8,12 +6,10 @@ from django.shortcuts import (
 from django.urls import reverse_lazy
 from django.views.generic import (
     TemplateView,
-    ListView,
     CreateView,
 )
 
 from forum.forms import (
-    SectionFilterForm,
     CreateThemeForm,
     CreateThemeWithSectionForm,
     CreateMessageForm,
@@ -24,12 +20,9 @@ from forum.models import (
     Section,
 )
 from forum.utils import DataMixin
-from forum.views_utils import (
-    get_theme_list_with_query,
-    get_message_list_with_query,
-    check_click_ascending,
-    sort_in_ascending_or_descending_order,
-    delete_message,
+from forum.views_base import (
+    ThemeListBase,
+    MessagesListBase, HomePageBase,
 )
 
 
@@ -38,113 +31,28 @@ class ShowAbout(DataMixin, TemplateView):
     title_page = "О себе"
 
 
-class HomePage(DataMixin, ListView):
-    model = Section
+class HomePage(HomePageBase):
     template_name = "forum/index.html"
     title_page = "Главная"
-    context_object_name = "sections"
-    paginate_by = 3
-
-    section_filter_form = SectionFilterForm
-    selected_sections = []
-
-    def get(self, *args, **kwargs):
-        query = self.request.GET.get("query")
-        if query:
-            params = {"query": query}
-            base_url = reverse_lazy("theme_list")
-            url = f"{base_url}?{urlencode(params)}"
-            return redirect(url)
-        return super().get(*args, **kwargs)
-
-    def get_queryset(self):
-        if "sections" in self.request.GET:
-            form = SectionFilterForm(self.request.GET)
-            if form.is_valid():
-                selected_sections = form.cleaned_data["sections"]
-                if selected_sections:
-                    self.section_filter_form = form
-                    self.selected_sections = [
-                        section.pk for section in selected_sections
-                    ]
-                    return selected_sections
-        elif "reset_sections" in self.request.GET:
-            self.section_filter_form = SectionFilterForm
-            self.selected_sections = []
-            return self.model.objects.all()
-        return self.model.objects.all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(
-            context,
-            section_filter_form = self.section_filter_form,
-            selected_sections = self.selected_sections,
-        )
 
 
-class ThemeList(DataMixin, ListView):
-    model = Theme
+class ThemeList(ThemeListBase):
     template_name = "forum/theme_list.html"
     title_page = "Темы"
-    context_object_name = "themes"
-    paginate_by = 10
-
-    is_ascending = None
-    query = None
-    all_themes_count = 0
 
     def get_queryset(self):
         object_list = self.model.objects.all()
-        self.query = self.request.GET.get("query")
-        object_list = get_theme_list_with_query(
-            object_list,
-            self.query,
-        )
-        self.is_ascending = check_click_ascending(self.request)
-        object_list = sort_in_ascending_or_descending_order(
-            object_list,
-            self.is_ascending,
-        )
-        self.all_themes_count = len(object_list)
-        return object_list
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(
-            context,
-            query=self.query,
-            is_ascending=self.is_ascending,
-            all_themes_count = self.all_themes_count,
-        )
+        return self._apply_filters_to_object_list(object_list)
 
 
-class ThemesOnSectionList(DataMixin, ListView):
-    model = Theme
+class ThemesOnSectionList(ThemeListBase):
     template_name = "forum/themes_on_section.html"
-    context_object_name = "themes"
-    paginate_by = 10
-
-    is_ascending = None
-    query = None
-    all_themes_count = 0
 
     def get_queryset(self):
         object_list = self.model.objects.filter(
             section__pk=self.kwargs["section_id"]
         )
-        self.query = self.request.GET.get("query")
-        object_list = get_theme_list_with_query(
-            object_list,
-            self.query,
-        )
-        self.is_ascending = check_click_ascending(self.request)
-        object_list = sort_in_ascending_or_descending_order(
-            object_list,
-            self.is_ascending,
-        )
-        self.all_themes_count = len(object_list)
-        return object_list
+        return self._apply_filters_to_object_list(object_list)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,23 +60,13 @@ class ThemesOnSectionList(DataMixin, ListView):
         title = Section.objects.get(pk=section_id).title
         return self.get_mixin_context(
             context,
-            query=self.query,
-            is_ascending=self.is_ascending,
-            all_themes_count = self.all_themes_count,
             section_id=section_id,
             title=title,
         )
 
 
-class MessagesOnThemeList(DataMixin, ListView):
-    model = Message
+class MessagesOnThemeList(MessagesListBase):
     template_name = "forum/messages_on_theme.html"
-    context_object_name = "messages"
-    paginate_by = 10
-
-    is_ascending = None
-    query = None
-    all_messages_count = 0
 
     def get(self, *args, **kwargs):
         parent_id = self.request.GET.get("parent_id")
@@ -191,12 +89,7 @@ class MessagesOnThemeList(DataMixin, ListView):
         return super().get(*args, **kwargs)
 
     def post(self, *args, **kwargs):
-        message_delete_id = self.request.POST.get("message_delete_id")
-        if message_delete_id:
-            delete_message(
-                user=self.request.user,
-                message_delete_id=message_delete_id,
-            )
+        self._delete_message()
         return redirect(
             "messages_on_theme",
             theme_id=self.kwargs["theme_id"],
@@ -207,18 +100,7 @@ class MessagesOnThemeList(DataMixin, ListView):
         object_list = self.model.active.filter(
             theme__pk=self.kwargs["theme_id"]
         )
-        self.query = self.request.GET.get("query")
-        object_list = get_message_list_with_query(
-            object_list,
-            self.query,
-        )
-        self.is_ascending = check_click_ascending(self.request)
-        object_list = sort_in_ascending_or_descending_order(
-            object_list,
-            self.is_ascending,
-        )
-        self.all_messages_count = len(object_list)
-        return object_list
+        return self._apply_filters_to_object_list(object_list)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -228,13 +110,25 @@ class MessagesOnThemeList(DataMixin, ListView):
         title = theme.title
         return self.get_mixin_context(
             context,
-            query=self.query,
-            is_ascending=self.is_ascending,
-            all_messages_count=self.all_messages_count,
             theme_id=theme_id,
             section_id=section_id,
             title=title,
         )
+
+
+class MyMessagesList(MessagesListBase):
+    template_name = "forum/my_messages.html"
+    title_page = "Мои сообщения"
+
+    def post(self, *args, **kwargs):
+        self._delete_message()
+        return redirect("my_messages")
+
+    def get_queryset(self):
+        object_list = self.model.active.filter(
+            author=self.request.user,
+        )
+        return self._apply_filters_to_object_list(object_list)
 
 
 class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
@@ -245,16 +139,13 @@ class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         theme_id = self.kwargs["theme_id"]
         theme = get_object_or_404(Theme, pk=theme_id)
-
         try:
             message_id = self.kwargs["message_id"]
             parent = Message.active.get(pk=message_id)
         except KeyError:
             parent = None
-
         return self.get_mixin_context(
             context,
             theme=theme,
@@ -313,10 +204,8 @@ class CreateThemeWithSection(LoginRequiredMixin, DataMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         section_id = self.kwargs["section_id"]
         section = Section.objects.get(pk=section_id)
-
         return self.get_mixin_context(
             context,
             section=section,
@@ -338,51 +227,4 @@ class CreateThemeWithSection(LoginRequiredMixin, DataMixin, CreateView):
                 "section_id": section_id,
                 "theme_id": theme_id,
             },
-        )
-
-
-class MyMessagesList(DataMixin, ListView):
-    model = Message
-    template_name = "forum/my_messages.html"
-    context_object_name = "messages"
-    paginate_by = 10
-    title_page = "Мои сообщения"
-
-    is_ascending = None
-    query = None
-    all_messages_count = 0
-
-    def post(self, *args, **kwargs):
-        message_delete_id = self.request.POST.get("message_delete_id")
-        if message_delete_id:
-            delete_message(
-                user=self.request.user,
-                message_delete_id=message_delete_id,
-            )
-        return redirect("my_messages")
-
-    def get_queryset(self):
-        object_list = self.model.active.filter(
-            author=self.request.user,
-        )
-        self.query = self.request.GET.get("query")
-        object_list = get_message_list_with_query(
-            object_list,
-            self.query,
-        )
-        self.is_ascending = check_click_ascending(self.request)
-        object_list = sort_in_ascending_or_descending_order(
-            object_list,
-            self.is_ascending,
-        )
-        self.all_messages_count = len(object_list)
-        return object_list
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(
-            context,
-            query=self.query,
-            is_ascending=self.is_ascending,
-            all_messages_count=self.all_messages_count,
         )

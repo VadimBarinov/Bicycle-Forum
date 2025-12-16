@@ -101,7 +101,7 @@ class Message(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         Theme.objects.filter(pk=self.theme.pk).update(
-            messages_count=Message.objects.filter(
+            messages_count=self.objects.filter(
                 is_active=True,
                 theme__pk=self.theme.pk,
             ).count(),
@@ -111,7 +111,7 @@ class Message(models.Model):
         self.is_active = False
         self.save(update_fields=["is_active"])
         Theme.objects.filter(pk=self.theme.pk).update(
-            messages_count=Message.objects.filter(
+            messages_count=self.objects.filter(
                 is_active=True,
                 theme__pk=self.theme.pk,
             ).count(),
