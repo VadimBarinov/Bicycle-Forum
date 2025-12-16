@@ -73,7 +73,7 @@ docker-compose exec web python init_db.py
 После выполнения подготовительных действий проект будет доступен по адресу
 
 ```bash
-    http://localhost:8000/
+    http://localhost:80/
 ```
 
 ---
