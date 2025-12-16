@@ -1,32 +1,28 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import (
     redirect,
     get_object_or_404
 )
 from django.urls import reverse_lazy
-from django.views.generic import (
-    TemplateView,
-    CreateView,
-)
 
 from forum.forms import (
     CreateThemeForm,
     CreateThemeWithSectionForm,
-    CreateMessageForm,
 )
 from forum.models import (
     Theme,
-    Message,
     Section,
 )
-from forum.utils import DataMixin
 from forum.views_base import (
     ThemeListBase,
-    MessagesListBase, HomePageBase,
+    MessagesListBase,
+    HomePageBase,
+    ShowAboutBase,
+    CreateMessageBase,
+    CreateThemeBase,
 )
 
 
-class ShowAbout(DataMixin, TemplateView):
+class ShowAbout(ShowAboutBase):
     template_name = "forum/about.html"
     title_page = "О себе"
 
@@ -131,51 +127,12 @@ class MyMessagesList(MessagesListBase):
         return self._apply_filters_to_object_list(object_list)
 
 
-class CreateMessage(LoginRequiredMixin, DataMixin, CreateView):
-    model = Message
-    form_class = CreateMessageForm
+class CreateMessage(CreateMessageBase):
     template_name = "forum/create_message.html"
     title_page = "Новое сообщение"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        theme_id = self.kwargs["theme_id"]
-        theme = get_object_or_404(Theme, pk=theme_id)
-        try:
-            message_id = self.kwargs["message_id"]
-            parent = Message.active.get(pk=message_id)
-        except KeyError:
-            parent = None
-        return self.get_mixin_context(
-            context,
-            theme=theme,
-            parent=parent,
-        )
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        theme = context["theme"]
-        parent = context["parent"]
-        form.instance.author = self.request.user
-        form.instance.theme = theme
-        if parent:
-            form.instance.parent = parent
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        theme_id = self.kwargs["theme_id"]
-        section_id = self.kwargs["section_id"]
-        return reverse_lazy(
-            "messages_on_theme",
-            kwargs={
-                "section_id": section_id,
-                "theme_id": theme_id,
-            },
-        )
-
-
-class CreateTheme(LoginRequiredMixin, DataMixin, CreateView):
-    model = Theme
+class CreateTheme(CreateThemeBase):
     form_class = CreateThemeForm
     template_name = "forum/create_theme.html"
     title_page = "Новая тема"
@@ -184,20 +141,8 @@ class CreateTheme(LoginRequiredMixin, DataMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    def get_success_url(self):
-        section_id = self.object.section.pk
-        theme_id = self.object.pk
-        return reverse_lazy(
-            "messages_on_theme",
-            kwargs={
-                "section_id": section_id,
-                "theme_id": theme_id,
-            },
-        )
 
-
-class CreateThemeWithSection(LoginRequiredMixin, DataMixin, CreateView):
-    model = Theme
+class CreateThemeWithSection(CreateThemeBase):
     form_class = CreateThemeWithSectionForm
     template_name = "forum/create_theme_with_section.html"
     title_page = "Новая тема"
@@ -217,14 +162,3 @@ class CreateThemeWithSection(LoginRequiredMixin, DataMixin, CreateView):
         form.instance.author = self.request.user
         form.instance.section =section
         return super().form_valid(form)
-
-    def get_success_url(self):
-        section_id = self.object.section.pk
-        theme_id = self.object.pk
-        return reverse_lazy(
-            "messages_on_theme",
-            kwargs={
-                "section_id": section_id,
-                "theme_id": theme_id,
-            },
-        )
