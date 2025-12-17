@@ -19,7 +19,7 @@ from forum.models import (
     Section,
 )
 from forum.utils import DataMixin
-from forum.views_utils import (
+from .utils import (
     redirect_from_home_to_theme_list,
     get_theme_list_by_query,
     check_click_ascending,

@@ -5,14 +5,13 @@ from django.shortcuts import (
 from django.urls import reverse_lazy
 
 from forum.forms import (
-    CreateThemeForm,
     CreateThemeWithSectionForm,
 )
 from forum.models import (
     Theme,
     Section,
 )
-from forum.views_base import (
+from .base import (
     ThemeListBase,
     MessagesListBase,
     HomePageBase,
