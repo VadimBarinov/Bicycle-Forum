@@ -11,6 +11,7 @@ from django.views.generic import (
 from forum.forms import (
     SectionFilterForm,
     CreateMessageForm,
+    CreateThemeForm,
 )
 from forum.models import (
     Theme,
@@ -101,6 +102,10 @@ class ThemeListBase(DataMixin, ListView):
         self.all_themes_count = len(object_list)
         return object_list
 
+    def get_queryset(self):
+        object_list = self.model.objects.all()
+        return self._apply_filters_to_object_list(object_list)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(
@@ -144,6 +149,10 @@ class MessagesListBase(DataMixin, ListView):
                 user=self.request.user,
                 message_delete_id=message_delete_id,
             )
+
+    def get_queryset(self):
+        object_list = self.model.active.all()
+        return self._apply_filters_to_object_list(object_list)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -196,6 +205,16 @@ class CreateMessageBase(LoginRequiredMixin, DataMixin, CreateView):
 
 class CreateThemeBase(LoginRequiredMixin, DataMixin, CreateView):
     model = Theme
+    form_class = CreateThemeForm
+
+    def _instance_author(self, form):
+        form.instance.author = self.request.user
+        return form
+
+    def form_valid(self, form):
+        return super().form_valid(
+            self._instance_author(form)
+        )
 
     def get_success_url(self):
         section_id = self.object.section.pk

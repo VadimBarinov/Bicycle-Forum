@@ -36,10 +36,6 @@ class ThemeList(ThemeListBase):
     template_name = "forum/theme_list.html"
     title_page = "Темы"
 
-    def get_queryset(self):
-        object_list = self.model.objects.all()
-        return self._apply_filters_to_object_list(object_list)
-
 
 class ThemesOnSectionList(ThemeListBase):
     template_name = "forum/themes_on_section.html"
@@ -133,13 +129,8 @@ class CreateMessage(CreateMessageBase):
 
 
 class CreateTheme(CreateThemeBase):
-    form_class = CreateThemeForm
     template_name = "forum/create_theme.html"
     title_page = "Новая тема"
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
 
 
 class CreateThemeWithSection(CreateThemeBase):
@@ -159,6 +150,5 @@ class CreateThemeWithSection(CreateThemeBase):
     def form_valid(self, form):
         context = self.get_context_data()
         section = context["section"]
-        form.instance.author = self.request.user
-        form.instance.section =section
+        self._instance_author(form).instance.section = section
         return super().form_valid(form)
