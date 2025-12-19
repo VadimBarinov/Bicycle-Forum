@@ -73,19 +73,19 @@ def create_test_themes():
             title="Какие-то новости",
             created_at="2025-11-19 21:15:58.644953+04",
             author_id=2,
-            section_id=1,
+            section_id=6,
         ),
         Theme(
             title="Выбор велосипеда: вопрос-ответ, быстрые консультации",
             created_at="2025-11-21 22:28:47.726057+04",
             author_id=3,
-            section_id=3,
+            section_id=1,
         ),
         Theme(
             title="Проблема коленей и как ее избежать",
             created_at="2025-10-27 09:42:36.258316+04",
             author_id=1,
-            section_id=4,
+            section_id=2,
         ),
     ]
     Theme.objects.bulk_create(themes_list)
